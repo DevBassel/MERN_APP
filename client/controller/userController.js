@@ -7,14 +7,14 @@ const getUser = asyncHandler(async (req, res) => {
 });
 
 const userBlogs = asyncHandler(async (req, res) => {
-  const count_on_page = 2;
+  const perPage = 4;
   const blogs = await Blog.find({ with: req.user._id })
     .sort({ createdAt: "desc" })
-    .skip(count_on_page * (req.params.page - 1))
-    .limit(count_on_page);
+    .skip(perPage * (req.params.page - 1))
+    .limit(perPage);
 
   const total = await Blog.find({ with: req.user._id }).count();
-  
+
   res.status(200).json({ blogs, total });
 });
 

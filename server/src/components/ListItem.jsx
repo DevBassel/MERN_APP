@@ -5,7 +5,7 @@ export default function ListItem({ name, to, icone }) {
   return (
     <li>
       <Link to={to}>
-        {icone} {name}
+        {icone} <span>{name}</span>
       </Link>
     </li>
   );

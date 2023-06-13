@@ -6,8 +6,8 @@
   "scripts": {
     "start": "node backend/server.js",
     "server": "nodemon backend/server.js",
-    "clint": "npm start --prefix frontend",
-    "dev": "concurrently \"npm run server\" \"npm run clint\""
+    "client": "npm start --prefix client",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
   },
   "author": "Bassel",
   "license": "ISC",

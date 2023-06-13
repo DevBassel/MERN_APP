@@ -36,7 +36,7 @@ function Login() {
   const { email, password } = Data;
 
   return (
-    <form onSubmit={submit}>
+      <form onSubmit={submit}>
       {loading && <Spinner />}
       {<div className={`err ${error ? "active" : ""}`}>{error}</div>}
       <h1>Welcome, User!</h1>

@@ -1,5 +1,5 @@
 
-export default function Input({ val, fun, type, id, name, lable, Icone }) {
+export default function Input({ val, fun, type, id, name, lable, Icone,accept }) {
 
   
   return (
@@ -10,6 +10,7 @@ export default function Input({ val, fun, type, id, name, lable, Icone }) {
         id={id}
         name={name}
         value={val}
+        accept={accept}
         required
       />
       <label htmlFor={id}>

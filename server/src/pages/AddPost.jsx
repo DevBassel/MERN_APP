@@ -49,23 +49,21 @@ export default function AddPost() {
     const file = target.files[0];
     const maxSize = 1048; // 1 MB
 
-    if (file.size / 1024 > maxSize) {
-      dispatch(addError("file must be less than 1 MB"));
-
+    const base64 = await convertImgToBase64(file);
+    if (!(file.size / 1024 > maxSize) && base64.includes("data:image/")) {
+      setData({
+        ...Data,
+        image: base64,
+      });
+    } else {
+      dispatch(addError("only images and must be less than 1 MB"));
       setData({
         ...Data,
         image: "",
       });
-
       setTimeout(() => dispatch(reset()), 3000);
       return;
     }
-    console.log(file.size / 1024);
-    const base64 = await convertImgToBase64(file);
-    setData({
-      ...Data,
-      image: base64,
-    });
   };
   const { tittle, content, image } = Data;
   return (
@@ -100,6 +98,7 @@ export default function AddPost() {
               id="img"
               lable="upload img"
               Icone={<RiImageAddFill />}
+              accept="image/*"
             />
             <div className={`postImg ${image ? " active" : ""}`}>
               <img src={image} alt="PostImage" />
