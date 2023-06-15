@@ -36,27 +36,29 @@ function Login() {
   const { email, password } = Data;
 
   return (
-      <form onSubmit={submit}>
+    <form onSubmit={submit}>
       {loading && <Spinner />}
       {<div className={`err ${error ? "active" : ""}`}>{error}</div>}
       <h1>Welcome, User!</h1>
       <p>Please Enter Your Data</p>
       <Input
-        val={email}
-        fun={getData}
+        value={email}
+        onChange={getData}
         type="email"
         name="email"
         id="loginEmail"
-        Icone={<IoAtOutline/>}
-      />
+        Icone={<IoAtOutline />}
+        required
+        />
       <Input
-        val={password}
-        fun={getData}
+        value={password}
+        onChange={getData}
         type="password"
         name="password"
         id="loginPassword"
-        Icone={<RiLockPasswordFill/>}
-      />
+        Icone={<RiLockPasswordFill />}
+        required
+        />
 
       <input type="submit" value="LogIn" />
     </form>

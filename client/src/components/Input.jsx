@@ -1,21 +1,10 @@
-
-export default function Input({ val, fun, type, id, name, lable, Icone,accept }) {
-
-  
+export default function Input(props) {
   return (
     <div className="fg">
-      <input
-        onChange={fun}
-        type={type}
-        id={id}
-        name={name}
-        value={val}
-        accept={accept}
-        required
-      />
-      <label htmlFor={id}>
-      {Icone}
-        {lable || name}
+      <input {...props} />
+      <label htmlFor={props.id}>
+        {props.Icone}
+        {props.lable || props.name}
       </label>
     </div>
   );

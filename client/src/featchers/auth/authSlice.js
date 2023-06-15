@@ -19,6 +19,9 @@ const authSlice = createSlice({
       state.user = "";
       state.error = "";
     },
+    addError: (state, { payload }) => {
+      state.error = payload;
+    },
   },
   extraReducers: {
     [register.pending]: (state) => {
@@ -49,5 +52,5 @@ const authSlice = createSlice({
   },
 });
 
-export const { reset } = authSlice.actions;
+export const { reset ,addError} = authSlice.actions;
 export default authSlice.reducer;

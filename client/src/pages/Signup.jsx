@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { register } from "../featchers/auth/authActions";
 import Spinner from "../components/Spinner";
 import { useNavigate } from "react-router-dom";
-import { reset } from "../featchers/auth/authSlice";
+import { addError, reset } from "../featchers/auth/authSlice";
 import Input from "../components/Input";
 import { BsFillFilePersonFill } from "react-icons/bs";
 import { IoAtOutline } from "react-icons/io5";
@@ -39,50 +39,58 @@ function Signup() {
     if (Data.password === Data.password2) {
       dispatch(register(Data));
       dispatch(reset());
+    } else {
+      dispatch(addError("2 passwords  must be ==="));
+      setTimeout(() => dispatch(reset()), 3000);
     }
   };
+  console.log(error);
 
   const { name, email, password, password2 } = Data;
   return (
-    <form onSubmit={submit} >
+    <form onSubmit={submit}>
       {isloading && <Spinner />}
       {<div className={`err ${error ? "active" : ""}`}>{error}</div>}
       <h1>Welcome,</h1>
       <p>Please Enter Your Data</p>
 
       <Input
-        val={name}
-        fun={getData}
+        value={name}
+        onChange={getData}
         type="text"
         name="name"
         id="registerName"
         Icone={<BsFillFilePersonFill />}
+        required
       />
       <Input
-        val={email}
-        fun={getData}
+        value={email}
+        onChange={getData}
         type="email"
         name="email"
         id="registerEmail"
         Icone={<IoAtOutline />}
+        required
       />
 
       <Input
-        val={password}
-        fun={getData}
+        value={password}
+        onChange={getData}
         type="password"
         name="password"
         id="regesterPass"
         Icone={<RiLockPasswordFill />}
+        required
       />
       <Input
-        val={password2}
-        fun={getData}
+        value={password2}
+        onChange={getData}
         type="password"
         name="password2"
         lable="password Agin"
         id="regesterPass2"
         Icone={<RiLockPasswordFill />}
+        required
       />
       <input type="submit" value="Sign Up" />
     </form>

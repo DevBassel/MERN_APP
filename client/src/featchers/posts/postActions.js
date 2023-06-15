@@ -41,3 +41,21 @@ export const getUserPosts = createAsyncThunk(
     }
   }
 );
+
+export const getNews = createAsyncThunk(
+  "posts/news",
+  async (page, { rejectWithValue, getState }) => {
+    try {
+      const response = await axios.get(`api/me/news/${page}`, {
+        headers: { Authorization: `Bearer ${getState().auth.user.token}` },
+      });
+      return response.data;
+    } catch (error) {
+      if (error.response && error.response.data) {
+        return rejectWithValue(error.response.data.error);
+      } else {
+        return rejectWithValue(error.message);
+      }
+    }
+  }
+);

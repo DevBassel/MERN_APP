@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Input from "../components/Input";
 import { BsFillFileEarmarkPostFill } from "react-icons/bs";
 import { RiImageAddFill } from "react-icons/ri";
@@ -14,6 +14,7 @@ export default function AddPost() {
   const dispatch = useDispatch();
   const { success, loading, error } = useSelector((state) => state.posts);
   const navigate = useNavigate();
+
   const [Data, setData] = useState({
     tittle: "",
     content: "",
@@ -29,6 +30,7 @@ export default function AddPost() {
 
   useEffect(() => {
     console.log(success);
+
   }, [success, navigate, dispatch]);
 
   const submit = (e) => {
@@ -79,22 +81,24 @@ export default function AddPost() {
             </h1>
             <Input
               type="text"
-              fun={getData}
-              val={tittle}
+              onChange={getData}
+              value={tittle}
               name="tittle"
               id="postTittle"
+              required
             />
             <Input
               type="text"
-              val={content}
-              fun={getData}
+              value={content}
+              onChange={getData}
               name="content"
               id="postContent"
+              required
             />
             <Input
               type="file"
               name="image"
-              fun={img}
+              onChange={img}
               id="img"
               lable="upload img"
               Icone={<RiImageAddFill />}

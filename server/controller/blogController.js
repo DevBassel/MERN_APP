@@ -13,7 +13,11 @@ const addBlog = asyncHandler(async (req, res) => {
   // const { tittle, content, image } = req.body;
   try {
     // console.log(req.body);
-    const blog = await Blog.create({ ...req.body, with: req.user._id });
+    const blog = await Blog.create({
+      ...req.body,
+      author: { id: req.user._id, name: req.user.name },
+    });
+    // console.log(blog);
     res.status(201).json(blog);
   } catch (error) {
     res.status(500);
@@ -29,7 +33,7 @@ const updateBlog = asyncHandler(async (req, res) => {
   if (isValidObjectId(id)) {
     const blog = await Blog.findById(id);
     //  console.log(blog);
-    if (blog.with.toString() === req.user._id.toString()) {
+    if (blog.author.toString() === req.user._id.toString()) {
       await Blog.findByIdAndUpdate(id, { content: text });
       res.status(200).json({ sccess: true });
     } else {
@@ -48,7 +52,7 @@ const deleteBlog = asyncHandler(async (req, res) => {
   if (isValidObjectId(id)) {
     const blog = await Blog.findById(id);
     //  console.log(blog);
-    if (blog.with.toString() === req.user._id.toString()) {
+    if (blog.author.toString() === req.user._id.toString()) {
       await Blog.findByIdAndDelete(id);
       res.status(200).json({ sccess: true });
     } else {

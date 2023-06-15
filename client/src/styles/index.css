@@ -96,6 +96,8 @@ nav ul svg {
 form {
   position: relative;
   overflow: hidden;
+  width: 100%;
+  max-width: 500px;
 }
 form h1,
 form p {
@@ -318,7 +320,8 @@ form input:focus {
   justify-content: center;
   flex-direction: column;
   padding: 10px;
-  margin-bottom: 15px;
+  width: 80%;
+  margin: 15px auto;
   border-radius: 1rem;
 }
 .post-img {
@@ -332,7 +335,6 @@ form input:focus {
   height: 100%;
 }
 .post-content {
-  height: 70px;
   padding: 10px 20px;
 }
 .pagenation {
@@ -376,21 +378,24 @@ form input:focus {
   .view {
     flex-direction: column;
   }
-  .view_content{
+  .view_content {
     width: 100% !important;
   }
-.view .opts {
-  width: 100%;
-  margin-bottom: 10px;
-}
-.view .opts ul {
-display: flex;
-justify-content: space-around;
-}
-.view .opts ul span{
-display: none;
-}
-form{
-  width: 100% ;
-}
+  .view .opts {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+  .view .opts ul {
+    display: flex;
+    justify-content: space-around;
+  }
+  .view .opts ul span {
+    display: none;
+  }
+  form {
+    width: 100%;
+  }
+  .view_content .box {
+    width: 95%;
+  }
 }

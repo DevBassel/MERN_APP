@@ -2,9 +2,10 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserPosts } from "../featchers/posts/postActions";
 import Spinner from "../components/Spinner";
-import Post from "./Post";
+import Post from "../components/Post";
 import Options from "../components/Options";
 import Pagenation from "../components/Pagenation";
+import reset from "../featchers/posts/postSlice";
 
 export default function Profile() {
   const user = useSelector((state) => state.auth.user);
@@ -14,6 +15,7 @@ export default function Profile() {
 
   useEffect(() => {
     dispatch(getUserPosts(page));
+
   }, [dispatch, page]);
 
   const next = () => {

@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { createPost, getUserPosts } from "./postActions";
+import { createPost, getNews, getUserPosts } from "./postActions";
 
 const initialState = {
   posts: [],
@@ -43,6 +43,18 @@ const postSlice = createSlice({
       state.success = true;
     },
     [getUserPosts.rejected]: (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
+    },
+    [getNews.pending]: (state) => {
+      state.loading = true;
+    },
+    [getNews.fulfilled]: (state, action) => {
+      state.loading = false;
+      state.posts = action.payload;
+      state.success = true;
+    },
+    [getNews.rejected]: (state, action) => {
       state.loading = false;
       state.error = action.payload;
     },

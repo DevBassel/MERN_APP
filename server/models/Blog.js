@@ -2,10 +2,10 @@ const mongoose = require("mongoose");
 
 const blogSchema = mongoose.Schema(
   {
-    with: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
-      required: true,
+    author: {
+      type: Object,
+      ref: "User", 
+      required: [true, "add author"],
     },
     content: {
       type: String,
@@ -17,7 +17,6 @@ const blogSchema = mongoose.Schema(
     },
     image: {
       type: String,
-      required: [true, "Plese enter a post image: "],
     },
   },
   {
