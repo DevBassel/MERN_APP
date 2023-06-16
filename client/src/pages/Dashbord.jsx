@@ -6,8 +6,6 @@ import Options from "../components/Options";
 import { getNews } from "../featchers/posts/postActions";
 import Pagenation from "../components/Pagenation";
 import Post from "../components/Post";
-import { reset } from "../featchers/posts/postSlice";
-// import { reset } from "../featchers/posts/postSlice";
 
 function Dashbord() {
   const { user } = useSelector((state) => state.auth);

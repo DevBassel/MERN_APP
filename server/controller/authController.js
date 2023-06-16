@@ -21,6 +21,7 @@ const singup = asyncHandler(async (req, res, next) => {
       name,
       email,
       password,
+      IP: req.ip,
     });
 
     res.status(201).json({

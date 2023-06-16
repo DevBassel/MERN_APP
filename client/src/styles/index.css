@@ -168,10 +168,20 @@ form input[type="submit"]:hover {
   scale: 1.05;
   border: 1px solid var(--main-color);
 }
+form .name {
+  display: flex;
+  width: 90%;
+  margin: auto;
+}
+form .name .fg {
+  width: 45%;
+  margin-bottom: 10px;
+}
+
 .fg {
   position: relative;
   width: 90%;
-  margin: 30px auto;
+  margin: 20px auto;
 }
 .fg label {
   display: flex;
@@ -315,19 +325,22 @@ form input:focus {
 }
 
 .view_content .box {
+  position: relative;
   background: #fff;
   display: flex;
   justify-content: center;
   flex-direction: column;
-  padding: 10px;
   width: 80%;
   margin: 15px auto;
   border-radius: 1rem;
+  overflow: hidden;
+  box-shadow: 0 0 18px 3px rgba(0, 0, 0, 0.4);
 }
 .post-img {
   max-width: 350px;
   height: 300px;
   margin: auto;
+  padding: 10px;
 }
 .post-img img {
   border-radius: 1rem;
@@ -336,6 +349,41 @@ form input:focus {
 }
 .post-content {
   padding: 10px 20px;
+}
+.post-content .info {
+  display: flex;
+  border-bottom: 1px solid #c0c0c0;
+  margin-bottom: 20px;
+}
+.post-content .info div {
+  font-size: 13px;
+  margin-top: 10px;
+  color: #c0c0c0;
+}
+.post-content .info div a {
+  display: block;
+  font-weight: bold;
+  color: var(--main-color);
+}
+.post-content svg {
+  font-size: 50px;
+  background: #eee;
+  border-radius: 50%;
+  margin-right: 20px;
+}
+.post-content .content {
+  padding: 0 15px;
+  font-family: Arial, Helvetica, sans-serif;
+}
+.post-content .content h4 {
+  color: gray;
+  text-transform: capitalize;
+  margin-bottom: 10px;
+}
+.post-content .content p {
+  color: rgb(73, 73, 73);
+  margin-left: 10px;
+  font-weight: bold;
 }
 .pagenation {
   list-style: none;
@@ -369,6 +417,20 @@ form input:focus {
 .pagenation li:hover:after {
   top: -20%;
   opacity: 1;
+}
+.post-featcher ul {
+  display: flex;
+  justify-content: space-around;
+  padding: 10px;
+  background: #eee;
+}
+.post-featcher ul li {
+  font-size: 30px;
+  list-style: none;
+  cursor: pointer;
+}
+.post-featcher ul li.active {
+  color: var(--main-color);
 }
 
 @media (max-width: 767px) {

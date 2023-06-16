@@ -1,10 +1,21 @@
 const mongoose = require("mongoose");
 
+// const commentSchema = mongoose.Schema({
+//   author: {
+//     type: Object,
+//     ref: "User",
+//   },
+//   content: {
+//     type: String,
+//     require: [true, "add comment content"],
+//   },
+// });
+
 const blogSchema = mongoose.Schema(
   {
     author: {
       type: Object,
-      ref: "User", 
+      ref: "User",
       required: [true, "add author"],
     },
     content: {
@@ -18,6 +29,15 @@ const blogSchema = mongoose.Schema(
     image: {
       type: String,
     },
+    usersLikes: {
+      type: Array,
+      default: [],
+    },
+    usersDisLikes: {
+      type: Array,
+      default: [],
+    },
+    // comments: [commentSchema],
   },
   {
     timestamps: true,

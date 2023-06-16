@@ -1,16 +1,40 @@
-
-export default function Post({ tittle, content, image, author ,createdAt}) {
+import { FaUserAlt } from "react-icons/fa";
+import { Link } from "react-router-dom";
+import PostFeatcher from "./PostFeatcher";
+export default function Post({
+  _id,
+  tittle,
+  content,
+  image,
+  author,
+  createdAt,
+}) {
   return (
     <>
       <div className="post-content">
-        <h3>{tittle}</h3>
-        <p>{content}</p>
-        <p>createor: {author.name}</p>
-        <p>createdAt: {createdAt}</p>
+        <div className="info">
+          <span>
+            <FaUserAlt />
+          </span>
+          <div>
+            <Link>{author.name}</Link>
+            <p>
+              {createdAt.split("T")[0]} |{" "}
+              {createdAt.split("T")[1].split(".")[0]}
+            </p>
+          </div>
+        </div>
+        <div className="content">
+          <h4>{tittle}</h4>
+          <p>{content}</p>
+        </div>
       </div>
-      <div className="post-img">
-        <img src={image} alt="postImage" />
-      </div>
+      {image && (
+        <div className="post-img">
+          <img src={image} alt="postImage" />
+        </div>
+      )}
+      <PostFeatcher id={_id} />
     </>
   );
 }

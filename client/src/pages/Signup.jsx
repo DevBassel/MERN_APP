@@ -10,7 +10,8 @@ import { IoAtOutline } from "react-icons/io5";
 import { RiLockPasswordFill } from "react-icons/ri";
 function Signup() {
   const [Data, setData] = useState({
-    name: "",
+    Fname: "",
+    Lname: "",
     email: "",
     password: "",
     password2: "",
@@ -20,6 +21,7 @@ function Signup() {
   const navgite = useNavigate();
 
   const { user, isloading, error } = useSelector((state) => state.auth);
+  const { Fname, Lname, email, password, password2 } = Data;
 
   useEffect(() => {
     if (error) {
@@ -37,7 +39,13 @@ function Signup() {
   const submit = async (e) => {
     e.preventDefault();
     if (Data.password === Data.password2) {
-      dispatch(register(Data));
+      dispatch(
+        register({
+          name: `${Fname}  ${Lname}`,
+          email,
+          password,
+        })
+      );
       dispatch(reset());
     } else {
       dispatch(addError("2 passwords  must be ==="));
@@ -46,7 +54,6 @@ function Signup() {
   };
   console.log(error);
 
-  const { name, email, password, password2 } = Data;
   return (
     <form onSubmit={submit}>
       {isloading && <Spinner />}
@@ -54,15 +61,26 @@ function Signup() {
       <h1>Welcome,</h1>
       <p>Please Enter Your Data</p>
 
-      <Input
-        value={name}
-        onChange={getData}
-        type="text"
-        name="name"
-        id="registerName"
-        Icone={<BsFillFilePersonFill />}
-        required
-      />
+      <div className="name">
+        <Input
+          value={Fname}
+          onChange={getData}
+          type="text"
+          name="Fname"
+          id="registerFName"
+          Icone={<BsFillFilePersonFill />}
+          required
+        />
+        <Input
+          value={Lname}
+          onChange={getData}
+          type="text"
+          name="Lname"
+          id="registerLName"
+          Icone={<BsFillFilePersonFill />}
+          required
+        />
+      </div>
       <Input
         value={email}
         onChange={getData}
