@@ -3,8 +3,8 @@ const User = require("../models/User");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
-// singup   POST   /api/singup
-const singup = asyncHandler(async (req, res, next) => {
+// register |  POST  |  /api/singup  |   public
+const singup = asyncHandler(async (req, res) => {
   const { name, email, password } = req.body;
   // console.log(req.body)
   if (!name || !email || !password) {
@@ -31,8 +31,8 @@ const singup = asyncHandler(async (req, res, next) => {
     });
   }
 });
-// singup   POST   /api/login
 
+// login |  POST  |  /api/login  |   public
 const login = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
   if (email && password) {
@@ -55,6 +55,7 @@ const login = asyncHandler(async (req, res) => {
 const genToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_KEY, { expiresIn: "30d" });
 };
+
 module.exports = {
   singup,
   login,

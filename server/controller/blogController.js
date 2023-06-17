@@ -1,5 +1,4 @@
 const Blog = require("../models/Blog");
-
 const { isValidObjectId } = require("mongoose");
 const asyncHandler = require("express-async-handler");
 
@@ -29,13 +28,12 @@ const addBlog = asyncHandler(async (req, res) => {
 // Update Blog   |  PUT   |   /api/blog/:id   |   private
 const updateBlog = asyncHandler(async (req, res) => {
   const { id } = req.params;
-  const { text } = req.body;
 
   if (isValidObjectId(id)) {
     const blog = await Blog.findById(id);
     //  console.log(blog);
     if (blog.author.toString() === req.user._id.toString()) {
-      await Blog.findByIdAndUpdate(id, { content: text });
+      await Blog.findByIdAndUpdate(id, { ...req.body });
       res.status(200).json({ sccess: true });
     } else {
       res.status(404);
@@ -49,13 +47,15 @@ const updateBlog = asyncHandler(async (req, res) => {
 // Delete  Blog |  DELETE  |  /api/blog/:id   |   private
 const deleteBlog = asyncHandler(async (req, res) => {
   const { id } = req.params;
-
+  console.log(id);
   if (isValidObjectId(id)) {
     const blog = await Blog.findById(id);
     //  console.log(blog);
-    if (blog.author.toString() === req.user._id.toString()) {
-      await Blog.findByIdAndDelete(id);
-      res.status(200).json({ sccess: true });
+    if (blog) {
+      if (blog.author.id.toString() === req.user._id.toString()) {
+        await Blog.findByIdAndDelete(id);
+        res.status(200).json({ sccess: true });
+      }
     } else {
       res.status(404);
       throw new Error("Blog Not Found");
@@ -98,7 +98,7 @@ const blogDislike = asyncHandler(async (req, res) => {
   const blogId = req.params.id;
   if (isValidObjectId(blogId)) {
     const blog = await Blog.findById(blogId);
-    console.log(blog);
+    // console.log(blog);
     if (blog) {
       if (!blog.usersDisLikes.includes(req.user._id)) {
         await Blog.findByIdAndUpdate(blogId, {
@@ -121,16 +121,25 @@ const blogDislike = asyncHandler(async (req, res) => {
   res.status(404);
   throw new Error("Not found");
 });
-// total likes and dislikes  Blog |  POST  |  /api/blog/dislike/:id   |   private
 
+// total likes and dislikes  Blog |  POST  |  /api/blog/dislike/:id   |   private
 const totalActions = asyncHandler(async (req, res) => {
   const blogId = req.params.id;
   if (isValidObjectId(blogId)) {
     const blog = await Blog.findById(blogId);
     if (blog) {
+      let useris = "none";
+      if (blog.usersLikes.includes(req.user._id)) {
+        useris = "like";
+      }
+      if (blog.usersDisLikes.includes(req.user._id)) {
+        useris = "dislike";
+      }
+
       return res.json({
         likes: blog.usersLikes.length,
         disLikes: blog.usersDisLikes.length,
+        useris,
       });
     }
   } else {
@@ -141,20 +150,6 @@ const totalActions = asyncHandler(async (req, res) => {
   throw new Error("Not found");
 });
 
-// disLike  Blog |  POST  |  /api/blog/dislike/:id   |   private
-const ifUser = asyncHandler(async (req, res) => {
-  const blog = await Blog.findById(req.params.id);
-  if (blog) {
-    if (blog.usersLikes.includes(req.user._id)) {
-      return res.json({ msg: "like" });
-    }
-    if (blog.usersDisLikes.includes(req.user._id)) {
-      return res.json({ msg: "dislike" });
-    }
-    return res.json({ msg: "none" });
-  }
-  res.status(404).json("Not Found");
-});
 module.exports = {
   getBlog,
   updateBlog,
@@ -163,5 +158,4 @@ module.exports = {
   blogLike,
   blogDislike,
   totalActions,
-  ifUser,
 };

@@ -3,7 +3,7 @@ export default function Input(props) {
     <div className="fg">
       <input {...props} />
       <label htmlFor={props.id}>
-        {props.Icone}
+        {props.icone}
         {props.lable || props.name}
       </label>
     </div>

@@ -47,7 +47,7 @@ function Login() {
         type="email"
         name="email"
         id="loginEmail"
-        Icone={<IoAtOutline />}
+        icone={<IoAtOutline />}
         required
         />
       <Input
@@ -56,7 +56,7 @@ function Login() {
         type="password"
         name="password"
         id="loginPassword"
-        Icone={<RiLockPasswordFill />}
+        icone={<RiLockPasswordFill />}
         required
         />
 

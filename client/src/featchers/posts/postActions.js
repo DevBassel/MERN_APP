@@ -59,3 +59,21 @@ export const getNews = createAsyncThunk(
     }
   }
 );
+export const deletePost = createAsyncThunk(
+  "posts/delete",
+  async (id, { rejectWithValue, getState }) => {
+    try {
+      const token = getState().auth.user.token;
+      const res = await axios.delete(`/api/blogs/${id}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      return res.data;
+    } catch (error) {
+      if (error.response || error.response.data) {
+        return rejectWithValue(error.response.data.error);
+      } else {
+        return rejectWithValue(error.message);
+      }
+    }
+  }
+);

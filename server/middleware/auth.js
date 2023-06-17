@@ -13,7 +13,9 @@ const auth = asyncHandler(async (req, res, next) => {
       if (user) {
         req.user = user;
         // console.log(user);
-      } else throw new Error("user not found");
+      } else {
+        throw new Error("user not found");
+      }
       next();
     } catch (error) {
       console.log({ error: error.message });

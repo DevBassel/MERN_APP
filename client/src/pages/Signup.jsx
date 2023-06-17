@@ -68,7 +68,7 @@ function Signup() {
           type="text"
           name="Fname"
           id="registerFName"
-          Icone={<BsFillFilePersonFill />}
+          icone={<BsFillFilePersonFill />}
           required
         />
         <Input
@@ -77,7 +77,7 @@ function Signup() {
           type="text"
           name="Lname"
           id="registerLName"
-          Icone={<BsFillFilePersonFill />}
+          icone={<BsFillFilePersonFill />}
           required
         />
       </div>
@@ -87,7 +87,7 @@ function Signup() {
         type="email"
         name="email"
         id="registerEmail"
-        Icone={<IoAtOutline />}
+        icone={<IoAtOutline />}
         required
       />
 
@@ -97,7 +97,7 @@ function Signup() {
         type="password"
         name="password"
         id="regesterPass"
-        Icone={<RiLockPasswordFill />}
+        icone={<RiLockPasswordFill />}
         required
       />
       <Input
@@ -107,7 +107,7 @@ function Signup() {
         name="password2"
         lable="password Agin"
         id="regesterPass2"
-        Icone={<RiLockPasswordFill />}
+        icone={<RiLockPasswordFill />}
         required
       />
       <input type="submit" value="Sign Up" />

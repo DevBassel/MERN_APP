@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import Input from "../components/Input";
 import { BsFillFileEarmarkPostFill } from "react-icons/bs";
 import { RiImageAddFill } from "react-icons/ri";
@@ -101,7 +101,7 @@ export default function AddPost() {
               onChange={img}
               id="img"
               lable="upload img"
-              Icone={<RiImageAddFill />}
+              icone={<RiImageAddFill />}
               accept="image/*"
             />
             <div className={`postImg ${image ? " active" : ""}`}>

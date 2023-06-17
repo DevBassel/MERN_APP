@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { createPost, getNews, getUserPosts } from "./postActions";
+import { createPost, deletePost, getNews, getUserPosts } from "./postActions";
 
 const initialState = {
   posts: [],
@@ -56,6 +56,19 @@ const postSlice = createSlice({
     },
     [getNews.rejected]: (state, action) => {
       state.loading = false;
+      state.error = action.payload;
+    },
+    [deletePost.pending]: (state) => {
+      state.loading = true;
+    },
+    [deletePost.fulfilled]: (state) => {
+      state.loading = false;
+      state.success = true;
+    },
+    [deletePost.rejected]: (state, action) => {
+      console.log(action);
+      state.loading = false;
+      state.success = false;
       state.error = action.payload;
     },
   },

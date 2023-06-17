@@ -6,21 +6,25 @@ import Options from "../components/Options";
 import { getNews } from "../featchers/posts/postActions";
 import Pagenation from "../components/Pagenation";
 import Post from "../components/Post";
-
+import { logout } from "../featchers/auth/authActions";
 function Dashbord() {
   const { user } = useSelector((state) => state.auth);
-  const { posts, loading } = useSelector((state) => state.posts);
+  const { posts, loading, error } = useSelector((state) => state.posts);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [page, setPage] = useState(1);
 
   useEffect(() => {
+    if (error) {
+      dispatch(logout());
+    }
+
     if (!user) {
       navigate("/login");
     }
     dispatch(getNews(page));
-  }, [dispatch, navigate, page, user]);
+  }, [dispatch, navigate, page, user, error]);
 
   const next = () => {
     if (page < posts.total / 4) {
@@ -40,7 +44,9 @@ function Dashbord() {
       });
     }
   };
-  console.log(posts);
+  console.log(error);
+
+  // console.log(posts);
   return (
     <>
       {user && (

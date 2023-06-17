@@ -5,18 +5,27 @@ import Spinner from "../components/Spinner";
 import Post from "../components/Post";
 import Options from "../components/Options";
 import Pagenation from "../components/Pagenation";
-import reset from "../featchers/posts/postSlice";
+import ListItem from "../components/ListItem";
+import Pcontroll from "../components/Pcontroll";
+import { AiTwotoneDelete } from "react-icons/ai";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { logout } from "../featchers/auth/authActions";
 
 export default function Profile() {
-  const user = useSelector((state) => state.auth.user);
-  const { posts, loading } = useSelector((state) => state.posts);
+  const { user } = useSelector((state) => state.auth);
+  const { posts, loading, succsess } = useSelector((state) => state.posts);
   const dispatch = useDispatch();
   const [page, setPage] = useState(1);
+  const navigate = useNavigate();
 
   useEffect(() => {
+    if (!user) {
+      navigate("/login");
+    }
+    console.log(succsess);
     dispatch(getUserPosts(page));
-
-  }, [dispatch, page]);
+  }, [dispatch, navigate, page, user, succsess]);
 
   const next = () => {
     if (page < posts.total / 4) {
@@ -36,13 +45,30 @@ export default function Profile() {
       });
     }
   };
-  console.log(page);
 
+  const deletProfile = async () => {
+    await axios.delete("/api/me/delete", {
+      headers: { Authorization: `Bearer ${user.token}` },
+    });
+    dispatch(logout());
+    // console.log(res.data);
+  };
+  // console.log(error);
+
+  // console.log(page);
+  const deletAcc = (
+    <ListItem
+      name="delete profile"
+      icone={<AiTwotoneDelete />}
+      cls="delAcc"
+      fun={deletProfile}
+    />
+  );
   return (
     <>
       {user && (
         <div className="view">
-          <Options />
+          <Options custome={deletAcc} />
 
           <div className="view_content">
             {loading && <Spinner />}
@@ -50,6 +76,7 @@ export default function Profile() {
             {posts.blogs &&
               posts.blogs.map((el) => (
                 <div className="box" key={el._id}>
+                  <Pcontroll id={el._id} />
                   <Post {...el} />
                 </div>
               ))}

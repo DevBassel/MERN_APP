@@ -7,40 +7,37 @@ export default function PostFeatcher({ id }) {
   // console.log(id);
   const token = useSelector((state) => state.auth.user.token);
   const [loading, setLoading] = useState(false);
-  const [active, setActive] = useState(false);
-  let config = {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  };
+
   const [actions, setActions] = useState({
     likes: 0,
     disLikes: 0,
+    useris: "none",
   });
 
   useEffect(() => {
     // console.log(token)
-    axios
-      .get(`/api/blogs/totalActions/${id}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      })
-      .then((res) => setActions(res.data));
-
-    ifuser();
-
-    // eslint-disable-next-line no-use-before-define, react-hooks/exhaustive-deps
-  }, [id, token, loading]);
-
+    (async () => { 
+      const res = await axios.get(`/api/blogs/totalActions/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setActions(res.data);
+    })();
+  }, [id, token,loading]);
+  // console.log(actions);
   const like = () => {
-    let config = {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    };
-
     setLoading(true);
     axios
-      .post(`/api/blogs/like/${id}`, {}, config)
+      .put(
+        `/api/blogs/like/${id}`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
       .catch((err) => console.log(err))
       .finally(() => {
         setLoading(false);
@@ -49,36 +46,45 @@ export default function PostFeatcher({ id }) {
   const dislike = () => {
     setLoading(true);
     axios
-      .post(`/api/blogs/dislike/${id}`, {}, config)
+      .put(
+        `/api/blogs/dislike/${id}`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
       .catch((err) => console.log(err))
       .finally(() => {
         setLoading(false);
       });
   };
-  const ifuser = async () => {
-    const res = await axios.get(`/api/blogs/ifuser/${id}`, config);
-    setActive(res.data.msg);
-    console.log(res.data);
-  };
+  // const ifuser =
 
   // console.log(actions)
   return (
     <div className="post-featcher">
       {loading && <Spinner />}
-      <ul>
-        <li className={`${active === "like" ? "active" : ""}`} onClick={like}>
-          <BiLike /> {actions.likes}
-        </li>
-        <li
-          className={`${active === "dislike" ? "active" : ""}`}
-          onClick={dislike}
-        >
-          <BiDislike /> {actions.disLikes}
-        </li>
-        <li className="commint">
-          <BiCommentDots />
-        </li>
-      </ul>
+      {actions && actions.useris && (
+        <ul>
+          <li
+            className={`${actions.useris === "like" ? "active" : ""}`}
+            onClick={like}
+          >
+            <BiLike /> {actions.likes}
+          </li>
+          <li
+            className={`${actions.useris === "dislike" ? "active" : ""}`}
+            onClick={dislike}
+          >
+            <BiDislike /> {actions.disLikes}
+          </li>
+          <li className="commint">
+            <BiCommentDots />
+          </li>
+        </ul>
+      )}
     </div>
   );
 }

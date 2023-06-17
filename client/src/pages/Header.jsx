@@ -2,7 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { BiLogIn, BiUserPlus, BiLogOut } from "react-icons/bi";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../featchers/auth/authActions";
-import { reset } from "../featchers/auth/authSlice";
+import { reset } from "../featchers/posts/postSlice";
 function Header() {
   const navegate = useNavigate();
   const dispatch = useDispatch();
@@ -11,6 +11,8 @@ function Header() {
     dispatch(logout());
     dispatch(reset());
     navegate("/login");
+    dispatch(reset())
+
   };
   return (
     <nav>
