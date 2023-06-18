@@ -26,6 +26,10 @@ export default function Profile() {
     } else {
       dispatch(getUserPosts(page));
     }
+
+    return () => {
+      dispatch(postreset());
+    };
   }, [dispatch, navigate, page, user]);
 
   const next = () => {

@@ -32,6 +32,7 @@ const postSlice = createSlice({
     },
     [createPost.rejected]: (state, action) => {
       state.loading = false;
+      state.success = false;
       state.error = action.payload;
     },
     [getUserPosts.pending]: (state) => {

@@ -37,13 +37,10 @@ export default function AddPost() {
       navigate("/login");
     }
   }, [dispatch, navigate, user]);
-
   const submit = (e) => {
     e.preventDefault();
 
     dispatch(createPost(Data));
-    setTimeout(() => dispatch(postreset()), 0);
-
     setData({
       tittle: "",
       content: "",
