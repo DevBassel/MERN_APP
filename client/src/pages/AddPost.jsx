@@ -6,13 +6,16 @@ import { convertImgToBase64 } from "../components/help";
 import { useDispatch, useSelector } from "react-redux";
 import { createPost } from "../featchers/posts/postActions";
 import Spinner from "../components/Spinner";
-import { addError, reset } from "../featchers/posts/postSlice";
+import { addError, postreset } from "../featchers/posts/postSlice";
 import { useNavigate } from "react-router-dom";
 import Options from "../components/Options";
+import { logout } from "../featchers/auth/authActions";
 
 export default function AddPost() {
   const dispatch = useDispatch();
-  const { success, loading, error } = useSelector((state) => state.posts);
+  const { loading, error } = useSelector((state) => state.posts);
+  const { user } = useSelector((state) => state.auth);
+
   const navigate = useNavigate();
 
   const [Data, setData] = useState({
@@ -29,15 +32,17 @@ export default function AddPost() {
   };
 
   useEffect(() => {
-    console.log(success);
-
-  }, [success, navigate, dispatch]);
+    if (!user) {
+      dispatch(logout());
+      navigate("/login");
+    }
+  }, [dispatch, navigate, user]);
 
   const submit = (e) => {
     e.preventDefault();
 
     dispatch(createPost(Data));
-    setTimeout(() => dispatch(reset()), 0);
+    setTimeout(() => dispatch(postreset()), 0);
 
     setData({
       tittle: "",
@@ -63,7 +68,7 @@ export default function AddPost() {
         ...Data,
         image: "",
       });
-      setTimeout(() => dispatch(reset()), 3000);
+      setTimeout(() => dispatch(postreset()), 3000);
       return;
     }
   };

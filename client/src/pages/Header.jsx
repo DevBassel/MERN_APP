@@ -2,17 +2,17 @@ import { Link, useNavigate } from "react-router-dom";
 import { BiLogIn, BiUserPlus, BiLogOut } from "react-icons/bi";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../featchers/auth/authActions";
-import { reset } from "../featchers/posts/postSlice";
+import { postreset } from "../featchers/posts/postSlice";
+import { authreset } from "../featchers/auth/authSlice";
 function Header() {
   const navegate = useNavigate();
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
   const logOut = () => {
     dispatch(logout());
-    dispatch(reset());
+    dispatch(postreset());
+    dispatch(authreset());
     navegate("/login");
-    dispatch(reset())
-
   };
   return (
     <nav>
@@ -22,9 +22,7 @@ function Header() {
       <ul>
         {user ? (
           <>
-            <li>
-              Hi, {user.name}
-            </li>
+            <li>Hi, {user.name}</li>
             <li onClick={logOut}>
               <BiLogOut /> logout
             </li>

@@ -11,10 +11,11 @@ import { AiTwotoneDelete } from "react-icons/ai";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { logout } from "../featchers/auth/authActions";
+import { postreset } from "../featchers/posts/postSlice";
 
 export default function Profile() {
   const { user } = useSelector((state) => state.auth);
-  const { posts, loading, succsess } = useSelector((state) => state.posts);
+  const { posts, loading } = useSelector((state) => state.posts);
   const dispatch = useDispatch();
   const [page, setPage] = useState(1);
   const navigate = useNavigate();
@@ -22,10 +23,10 @@ export default function Profile() {
   useEffect(() => {
     if (!user) {
       navigate("/login");
+    } else {
+      dispatch(getUserPosts(page));
     }
-    console.log(succsess);
-    dispatch(getUserPosts(page));
-  }, [dispatch, navigate, page, user, succsess]);
+  }, [dispatch, navigate, page, user]);
 
   const next = () => {
     if (page < posts.total / 4) {
@@ -50,7 +51,9 @@ export default function Profile() {
     await axios.delete("/api/me/delete", {
       headers: { Authorization: `Bearer ${user.token}` },
     });
+    dispatch(postreset());
     dispatch(logout());
+
     // console.log(res.data);
   };
   // console.log(error);

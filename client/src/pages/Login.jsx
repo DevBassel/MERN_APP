@@ -6,6 +6,7 @@ import Spinner from "../components/Spinner";
 import Input from "../components/Input";
 import { IoAtOutline } from "react-icons/io5";
 import { RiLockPasswordFill } from "react-icons/ri";
+import { authreset } from "../featchers/auth/authSlice";
 function Login() {
   const dispatch = useDispatch();
   const { user, islogin, loading, error } = useSelector((state) => state.auth);
@@ -31,6 +32,7 @@ function Login() {
   const submit = async (e) => {
     e.preventDefault();
     dispatch(login(Data));
+    dispatch(authreset());
   };
 
   const { email, password } = Data;
@@ -39,7 +41,7 @@ function Login() {
     <form onSubmit={submit}>
       {loading && <Spinner />}
       {<div className={`err ${error ? "active" : ""}`}>{error}</div>}
-      <h1>Welcome, User!</h1>
+      <h1>Welcome, Back!</h1>
       <p>Please Enter Your Data</p>
       <Input
         value={email}
@@ -49,7 +51,7 @@ function Login() {
         id="loginEmail"
         icone={<IoAtOutline />}
         required
-        />
+      />
       <Input
         value={password}
         onChange={getData}
@@ -58,7 +60,7 @@ function Login() {
         id="loginPassword"
         icone={<RiLockPasswordFill />}
         required
-        />
+      />
 
       <input type="submit" value="LogIn" />
     </form>

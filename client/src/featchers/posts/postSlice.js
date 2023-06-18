@@ -11,7 +11,7 @@ const postSlice = createSlice({
   name: "posts",
   initialState,
   reducers: {
-    reset: (state) => {
+    postreset: (state) => {
       state.posts = [];
       state.loading = false;
       state.success = false;
@@ -73,5 +73,5 @@ const postSlice = createSlice({
     },
   },
 });
-export const { reset, addError } = postSlice.actions;
+export const { postreset, addError } = postSlice.actions;
 export default postSlice.reducer;

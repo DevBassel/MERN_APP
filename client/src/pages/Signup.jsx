@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { register } from "../featchers/auth/authActions";
 import Spinner from "../components/Spinner";
 import { useNavigate } from "react-router-dom";
-import { addError, reset } from "../featchers/auth/authSlice";
+import { addError, authreset } from "../featchers/auth/authSlice";
 import Input from "../components/Input";
 import { BsFillFilePersonFill } from "react-icons/bs";
 import { IoAtOutline } from "react-icons/io5";
@@ -29,7 +29,6 @@ function Signup() {
     }
     if (user) {
       navgite("/");
-      console.log(user);
     }
   }, [navgite, user, error]);
 
@@ -46,13 +45,12 @@ function Signup() {
           password,
         })
       );
-      dispatch(reset());
+      dispatch(authreset())
     } else {
       dispatch(addError("2 passwords  must be ==="));
-      setTimeout(() => dispatch(reset()), 3000);
+      setTimeout(() => dispatch(authreset()), 3000);
     }
   };
-  console.log(error);
 
   return (
     <form onSubmit={submit}>

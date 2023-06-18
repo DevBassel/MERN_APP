@@ -13,7 +13,7 @@ const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    reset: (state) => {
+    authreset: (state) => {
       state.loading = false;
       state.islogin = false;
       state.user = "";
@@ -34,7 +34,7 @@ const authSlice = createSlice({
     },
     [register.rejected]: (state, action) => {
       state.loading = false;
-      console.log(action.payload)
+      state.islogin = false;
       state.error = action.payload;
     },
 
@@ -52,9 +52,11 @@ const authSlice = createSlice({
     },
     [logout.fulfilled]: (state) => {
       state.user = null;
+      state.loading = false;
+      state.islogin = false;
     },
   },
 });
 
-export const { reset, addError } = authSlice.actions;
+export const { authreset, addError } = authSlice.actions;
 export default authSlice.reducer;

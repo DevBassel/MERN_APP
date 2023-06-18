@@ -22,8 +22,7 @@ function Dashbord() {
 
     if (!user) {
       navigate("/login");
-    }
-    dispatch(getNews(page));
+    } else dispatch(getNews(page));
   }, [dispatch, navigate, page, user, error]);
 
   const next = () => {
