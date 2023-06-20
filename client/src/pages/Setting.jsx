@@ -2,28 +2,32 @@ import React, { useEffect, useState } from "react";
 import Input from "../components/Input";
 import { RiImageAddFill } from "react-icons/ri";
 import { handleImage } from "../components/help";
-import { addError, postreset } from "../featchers/posts/postSlice";
+import { postreset } from "../featchers/posts/postSlice";
+import { addError } from "../featchers/auth/authSlice";
+
 import { useDispatch, useSelector } from "react-redux";
-import { logout } from "../featchers/auth/authActions";
 import { useNavigate } from "react-router-dom";
+import Spinner from "../components/Spinner";
+import { UpdataProfile, logout } from "../featchers/auth/authActions";
+import { AiTwotoneDelete } from "react-icons/ai";
+import axios from "axios";
 export default function Setting() {
   const dispatch = useDispatch();
-  const { user } = useSelector((state) => state.auth);
+  const { user, loading, some, error } = useSelector((state) => state.auth);
   const navigate = useNavigate();
 
   const [Data, setData] = useState({
-    name: "",
-    email: "",
-    pass1: "",
-    image: "",
+    name: some && some.name,
+    email: some && some.email,
+    password: "",
+    image: some && some.image,
   });
 
   useEffect(() => {
     if (!user) {
-      dispatch(logout());
       navigate("/login");
     }
-  }, [dispatch, navigate, user]);
+  }, [dispatch, error, navigate, user]);
 
   const getData = ({ target }) => {
     setData({
@@ -34,7 +38,17 @@ export default function Setting() {
 
   const submit = (e) => {
     e.preventDefault();
-    console.log(Data);
+    dispatch(UpdataProfile(Data));
+    setTimeout(() => dispatch(addError("")), 3000);
+  };
+  const deletProfile = async () => {
+    await axios.delete("/api/me/delete", {
+      headers: { Authorization: `Bearer ${user.token}` },
+    });
+    dispatch(postreset());
+    dispatch(logout());
+
+    // console.log(res.data);
   };
 
   const img = async ({ target }) => {
@@ -55,11 +69,13 @@ export default function Setting() {
       }
     });
   };
-  const { name, email, pass1, image } = Data;
+  const { name, email, password, image } = Data;
   return (
     <div className="setting">
-      <div>
+      {<div className={`err ${error ? "active" : ""}`}>{error}</div>}
+      <div className="settingContent">
         <form onSubmit={submit}>
+          {loading && <Spinner />}
           <h1>Update Your Profile</h1>
           <div>
             <Input
@@ -71,7 +87,10 @@ export default function Setting() {
               icone={<RiImageAddFill />}
               accept="image/*"
             />
-            <div className={`postImg ${image ? " active" : ""}`}>
+            <div
+              style={{ width: 150, height: 150 }}
+              className={`postImg ${image ? " active" : ""}`}
+            >
               <img src={image} alt="PostImage" />
             </div>
           </div>
@@ -83,14 +102,19 @@ export default function Setting() {
             value={email}
           />
           <Input
-            name="pass1"
+            name="password"
             id="pass1"
             lable="password"
             onChange={getData}
-            value={pass1}
+            value={password}
+            required
           />
-          
+
           <input type="submit" value="Update" />
+          <button className="del" onClick={deletProfile}>
+            <AiTwotoneDelete />
+            Delete Profile
+          </button>
         </form>
       </div>
     </div>

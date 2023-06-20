@@ -2,6 +2,7 @@ const asyncHandler = require("express-async-handler");
 const Blog = require("../models/Blog");
 const User = require("../models/User");
 const { isValidObjectId, default: mongoose } = require("mongoose");
+const bcrypt = require("bcrypt");
 const perPage = 5;
 
 // get User |  GET  |  /api/me/   |   private
@@ -13,7 +14,7 @@ const getMe = asyncHandler(async (req, res) => {
 const getUserById = asyncHandler(async (req, res) => {
   const { id } = req.params;
   if (isValidObjectId(id)) {
-    const user = await User.findById(id).select("-password -email");
+    const user = await User.findById(id).select("-password");
     if (user) {
       return res.json(user);
     } else throw new Error("User Not Found");
@@ -49,6 +50,28 @@ const getNews = asyncHandler(async (req, res) => {
   const total = await Blog.find({ "author.id": { $ne: req.user._id } }).count();
   res.json({ news, total, perPage });
 });
+const UpdateUser = asyncHandler(async (req, res) => {
+  const { name, image, email, password } = req.body;
+  const user = await User.findById(req.user._id);
+  if (user && (await bcrypt.compare(password, user.password))) {
+    console.log("valid pass");
+    await User.updateOne(
+      { _id: req.user._id },
+      {
+        $set: { name: name, email: email, image: image },
+      }
+    );
+    const updated = await User.findById(req.user._id).select("-password");
+    return res.json({
+      name: `${updated.name}`,
+      image: updated.image,
+      email: updated.email,
+    });
+  } else {
+    res.status(401);
+    throw new Error("Not Valid Password");
+  }
+});
 
 // Delete User |  DELET  |  /api/me/delete   |   private
 const DelUser = asyncHandler(async (req, res) => {
@@ -67,4 +90,5 @@ module.exports = {
   getNews,
   DelUser,
   getUserById,
+  UpdateUser,
 };

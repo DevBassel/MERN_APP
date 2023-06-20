@@ -38,7 +38,7 @@ body {
   font-family: Arial, Helvetica, sans-serif;
   background: var(--light);
 }
-::-webkit-scrollbar{
+::-webkit-scrollbar {
   width: 0;
   height: 0;
 }
@@ -119,9 +119,10 @@ form p {
   color: rgba(0, 0, 0, 0.7);
   margin-top: 15px;
 }
-form .err {
-  position: absolute;
-  top: 0;
+.err {
+  position: sticky;
+  z-index: 99;
+  top: -9px;
   left: 0;
   background: #f44336;
   color: #fff;
@@ -132,7 +133,7 @@ form .err {
   text-align: center;
   width: 100%;
 }
-form .err.active {
+.err.active {
   height: 20px;
 }
 
@@ -144,7 +145,8 @@ form {
   background: #fff;
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
 }
-form input {
+form input,
+button {
   width: 100%;
   display: block;
   box-sizing: border-box;
@@ -152,8 +154,12 @@ form input {
   padding: 14px 12px;
   font-size: 16px;
 }
-
-form input {
+.del {
+  background: #f44336;
+  color: #fff;
+}
+form input,
+button {
   border: 1px solid #c0c0c0;
   transition: 0.2s;
   background: transparent;
@@ -166,12 +172,15 @@ form input:hover {
   transition: all 0.2s ease-in-out;
 }
 
-form input[type="submit"] {
+form input[type="submit"],
+button {
   border: 1px solid transparent;
   color: #eee;
   background: #000;
+  cursor: pointer;
 }
-form input[type="submit"]:hover {
+form input[type="submit"]:hover,
+button:hover {
   scale: 1.05;
   border: 1px solid var(--main-color);
 }
@@ -478,14 +487,14 @@ form input:focus {
   background: rgba(0, 0, 0, 0.7);
   z-index: 100;
 }
-.setting > div {
+.setting .settingContent {
   position: absolute;
   left: 50%;
   top: 50%;
   border-radius: 1rem;
   padding: 10px;
   width: 90%;
-  height: 80vh;
+  height: 90vh;
   overflow: scroll;
   max-width: 450px;
   background: var(--hover-color);

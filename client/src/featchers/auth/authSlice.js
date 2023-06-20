@@ -1,12 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { login, logout, register } from "./authActions";
+import { UpdataProfile, login, logout, register } from "./authActions";
 
 const user = JSON.parse(localStorage.getItem("user"));
-
+const some = JSON.parse(localStorage.getItem("some"));
 const initialState = {
   loading: false,
   islogin: false,
   user: user,
+  some: some,
   error: "",
 };
 const authSlice = createSlice({
@@ -42,9 +43,14 @@ const authSlice = createSlice({
       state.loading = true;
     },
     [login.fulfilled]: (state, action) => {
+      const { token, name, email, image, id } = action.payload;
       state.loading = false;
       state.islogin = true;
-      state.user = action.payload;
+      state.user = { id, token };
+      state.some = { image, name, email };
+
+      localStorage.setItem("some", JSON.stringify({ image, name, email }));
+      localStorage.setItem("user", JSON.stringify({ id, token }));
     },
     [login.rejected]: (state, action) => {
       state.loading = false;
@@ -54,6 +60,18 @@ const authSlice = createSlice({
       state.user = null;
       state.loading = false;
       state.islogin = false;
+    },
+    [UpdataProfile.pending]: (state) => {
+      state.loading = true;
+    },
+    [UpdataProfile.fulfilled]: (state, action) => {
+      state.loading = false;
+      state.some = action.payload;
+      localStorage.setItem("some", JSON.stringify(action.payload));
+    },
+    [UpdataProfile.rejected]: (state, action) => {
+      state.loading = false;
+      state.error = action.payload;
     },
   },
 });

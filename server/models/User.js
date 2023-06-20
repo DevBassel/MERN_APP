@@ -12,6 +12,9 @@ const userSchema = mongoose.Schema(
       required: [true, "plase enter an email"],
       unique: [true, "this email is existing"],
     },
+    image: {
+      type: String,
+    },
     password: {
       type: String,
       required: [true, "plase enter a password"],

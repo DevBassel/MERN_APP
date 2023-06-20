@@ -7,10 +7,8 @@ import Options from "../components/Options";
 import Pagenation from "../components/Pagenation";
 import ListItem from "../components/ListItem";
 import Pcontroll from "../components/Pcontroll";
-import { AiTwotoneDelete, AiTwotoneSetting } from "react-icons/ai";
-import axios from "axios";
+import {  AiTwotoneSetting } from "react-icons/ai";
 import { Outlet, useNavigate } from "react-router-dom";
-import { logout } from "../featchers/auth/authActions";
 import { postreset } from "../featchers/posts/postSlice";
 
 export default function Profile() {
@@ -21,7 +19,6 @@ export default function Profile() {
   const [page, setPage] = useState(1);
   const navigate = useNavigate();
   useEffect(() => {
-    console.log(user);
     if (!user) {
       navigate("/login");
     } else {
@@ -51,15 +48,7 @@ export default function Profile() {
     }
   };
 
-  const deletProfile = async () => {
-    await axios.delete("/api/me/delete", {
-      headers: { Authorization: `Bearer ${user.token}` },
-    });
-    dispatch(postreset());
-    dispatch(logout());
-
-    // console.log(res.data);
-  };
+  
   // console.log(error);
 
   // console.log(page);
@@ -74,12 +63,7 @@ export default function Profile() {
               name="setting"
               icone={<AiTwotoneSetting />}
             />
-            <ListItem
-              name="delete profile"
-              icone={<AiTwotoneDelete />}
-              cls="delAcc"
-              fun={deletProfile}
-            />
+           
           </Options>
 
           <div className="view_content">

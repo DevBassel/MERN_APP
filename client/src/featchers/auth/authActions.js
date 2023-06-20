@@ -12,7 +12,7 @@ export const register = createAsyncThunk(
       }
       return res.data;
     } catch (error) {
-      console.log(error)
+      console.log(error);
       if (error.response && error.response.data) {
         return rejectWithValue(error.response.data.error);
       } else {
@@ -26,10 +26,7 @@ export const login = createAsyncThunk(
   async ({ email, password }, { rejectWithValue }) => {
     try {
       const res = await axios.post("/api/login", { email, password });
-      if (res.data.token) {
-        localStorage.setItem("user", JSON.stringify(res.data));
-        return res.data;
-      }
+      return res.data;
     } catch (error) {
       if (error.response && error.response.data) {
         return rejectWithValue(error.response.data.error);
@@ -42,4 +39,25 @@ export const login = createAsyncThunk(
 
 export const logout = createAsyncThunk("auth/logout", () => {
   localStorage.removeItem("user");
+  localStorage.removeItem("some");
 });
+
+export const UpdataProfile = createAsyncThunk(
+  "auth/updateProfile",
+  async (data, { getState, rejectWithValue }) => {
+    const token = getState().auth.user.token;
+    try {
+      const res = await axios.put(`/api/me/update`, data, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      return res.data;
+    } catch (error) {
+      if (error.response && error.response.data) {
+        return rejectWithValue(error.response.data.error);
+      } else {
+        return rejectWithValue(error.message.error);
+      }
+    }
+  }
+);

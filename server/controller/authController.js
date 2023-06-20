@@ -42,6 +42,8 @@ const login = asyncHandler(async (req, res) => {
       return res.status(200).json({
         id: user._id,
         name: `${user.name}`,
+        image: user.image,
+        email: user.email,
         token: genToken(user._id),
       });
     } else {
@@ -59,4 +61,5 @@ const genToken = (id) => {
 module.exports = {
   singup,
   login,
+  genToken,
 };
