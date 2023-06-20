@@ -17,7 +17,7 @@ export default function Post({
             <FaUserAlt />
           </span>
           <div>
-            <Link>{author.name}</Link>
+            <Link to={`/users/${author.id}`}>{author.name}</Link>
             <p>
               {createdAt.split("T")[0]} |{" "}
               {createdAt.split("T")[1].split(".")[0]}

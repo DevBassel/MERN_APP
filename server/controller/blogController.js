@@ -1,12 +1,8 @@
 const Blog = require("../models/Blog");
-const { isValidObjectId } = require("mongoose");
+const { isValidObjectId, default: mongoose } = require("mongoose");
 const asyncHandler = require("express-async-handler");
 
-// Get All blogs    |   GET   |   /api/blog   | private
-const getBlog = async (req, res) => {
-  const blogs = await Blog.find();
-  res.status(200).json(blogs);
-};
+// Get  blogs with user id    |   GET   |   /api/blog   | private
 
 // Add Blog   |   POST    |   /api/blog   |   private
 const addBlog = asyncHandler(async (req, res) => {
@@ -15,7 +11,10 @@ const addBlog = asyncHandler(async (req, res) => {
     // console.log(req.body);
     const blog = await Blog.create({
       ...req.body,
-      author: { id: req.user._id, name: req.user.name },
+      author: {
+        id: new mongoose.Types.ObjectId(req.user._id),
+        name: req.user.name,
+      },
     });
     // console.log(blog);
     res.status(201).json(blog);
@@ -151,7 +150,6 @@ const totalActions = asyncHandler(async (req, res) => {
 });
 
 module.exports = {
-  getBlog,
   updateBlog,
   addBlog,
   deleteBlog,

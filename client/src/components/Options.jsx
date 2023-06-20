@@ -2,7 +2,7 @@ import React from "react";
 import ListItem from "./ListItem";
 import { IoAddSharp, IoHome, IoPersonCircleSharp } from "react-icons/io5";
 
-export default function Options({ custome }) {
+export default function Options({ children }) {
   return (
     <div className="opts">
       <ul>
@@ -13,7 +13,7 @@ export default function Options({ custome }) {
           icone={<IoPersonCircleSharp />}
         />
         <ListItem to="/addPost" name="add post" icone={<IoAddSharp />} />
-        {custome}
+        {children}
       </ul>
     </div>
   );

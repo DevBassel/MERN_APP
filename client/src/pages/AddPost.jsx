@@ -2,14 +2,14 @@ import { useEffect, useState } from "react";
 import Input from "../components/Input";
 import { BsFillFileEarmarkPostFill } from "react-icons/bs";
 import { RiImageAddFill } from "react-icons/ri";
-import { convertImgToBase64 } from "../components/help";
 import { useDispatch, useSelector } from "react-redux";
 import { createPost } from "../featchers/posts/postActions";
 import Spinner from "../components/Spinner";
-import { addError, postreset } from "../featchers/posts/postSlice";
 import { useNavigate } from "react-router-dom";
 import Options from "../components/Options";
 import { logout } from "../featchers/auth/authActions";
+import { handleImage } from "../components/help";
+import { addError, postreset } from "../featchers/posts/postSlice";
 
 export default function AddPost() {
   const dispatch = useDispatch();
@@ -37,6 +37,9 @@ export default function AddPost() {
       navigate("/login");
     }
   }, [dispatch, navigate, user]);
+
+
+  
   const submit = (e) => {
     e.preventDefault();
 
@@ -51,25 +54,25 @@ export default function AddPost() {
 
   const img = async ({ target }) => {
     const file = target.files[0];
-    const maxSize = 1048; // 1 MB
-
-    const base64 = await convertImgToBase64(file);
-    if (!(file.size / 1024 > maxSize) && base64.includes("data:image/")) {
-      setData({
-        ...Data,
-        image: base64,
-      });
-    } else {
-      dispatch(addError("only images and must be less than 1 MB"));
-      setData({
-        ...Data,
-        image: "",
-      });
-      setTimeout(() => dispatch(postreset()), 3000);
-      return;
-    }
+    handleImage(file, (result) => {
+      if (result.includes("data:image")) {
+        setData({
+          ...Data,
+          image: result,
+        });
+      } else {
+        if (file) {
+          dispatch(addError(result));
+          setTimeout(() => {
+            dispatch(postreset());
+          }, 3000);
+        }
+      }
+    });
   };
+
   const { tittle, content, image } = Data;
+  console.log(image);
   return (
     <>
       <div className="view">

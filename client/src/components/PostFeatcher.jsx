@@ -7,7 +7,6 @@ export default function PostFeatcher({ id }) {
   // console.log(id);
   const token = useSelector((state) => state.auth.user.token);
   const [loading, setLoading] = useState(false);
-
   const [actions, setActions] = useState({
     likes: 0,
     disLikes: 0,
@@ -16,15 +15,20 @@ export default function PostFeatcher({ id }) {
 
   useEffect(() => {
     // console.log(token)
-    (async () => { 
-      const res = await axios.get(`/api/blogs/totalActions/${id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      setActions(res.data);
+    (async () => {
+      try {
+        const res = await axios.get(`/api/blogs/totalActions/${id}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        setActions(res.data);
+      } catch (error) {
+        console.log(error);
+      }
     })();
-  }, [id, token,loading]);
+  }, [id, token, loading]);
   // console.log(actions);
   const like = () => {
     setLoading(true);
@@ -60,7 +64,6 @@ export default function PostFeatcher({ id }) {
         setLoading(false);
       });
   };
-  // const ifuser =
 
   // console.log(actions)
   return (

@@ -7,6 +7,7 @@ import { getNews } from "../featchers/posts/postActions";
 import Pagenation from "../components/Pagenation";
 import Post from "../components/Post";
 import { logout } from "../featchers/auth/authActions";
+import { postreset } from "../featchers/posts/postSlice";
 function Dashbord() {
   const { user } = useSelector((state) => state.auth);
   const { posts, loading, error } = useSelector((state) => state.posts);
@@ -23,10 +24,14 @@ function Dashbord() {
     if (!user) {
       navigate("/login");
     } else dispatch(getNews(page));
+
+    return () => {
+      dispatch(postreset());
+    };
   }, [dispatch, navigate, page, user, error]);
 
   const next = () => {
-    if (page < posts.total / 4) {
+    if (page < posts.total / posts.perPage) {
       setPage(page + 1);
       window.scrollTo({
         top: 0,
@@ -59,7 +64,12 @@ function Dashbord() {
                   <Post {...el} />
                 </div>
               ))}
-            <Pagenation {...{ next, prev }} />
+            <Pagenation
+              {...{ next, prev }}
+              page={page}
+              total={posts.total}
+              per={posts.perPage}
+            />
           </div>
         </div>
       )}

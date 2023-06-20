@@ -1,35 +1,53 @@
 const asyncHandler = require("express-async-handler");
 const Blog = require("../models/Blog");
 const User = require("../models/User");
+const { isValidObjectId, default: mongoose } = require("mongoose");
+const perPage = 5;
 
 // get User |  GET  |  /api/me/   |   private
-const getUser = asyncHandler(async (req, res) => {
+const getMe = asyncHandler(async (req, res) => {
   // console.log("get user");
   res.status(200).json(req.user);
 });
-
-// get User |  GET  |  /api/me/blogs/:page   |   private
+// get User |  GET  |  /api/me/user/:id   |   private
+const getUserById = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+  if (isValidObjectId(id)) {
+    const user = await User.findById(id).select("-password -email");
+    if (user) {
+      return res.json(user);
+    } else throw new Error("User Not Found");
+  } else throw new Error("Not Valid ID");
+});
+// get User |  GET  |  /api/me/blogs/:id/:page   |   private
 const userBlogs = asyncHandler(async (req, res) => {
-  const perPage = 4;
-  const blogs = await Blog.find({ "author.id": req.user._id })
-    .sort({ createdAt: "desc" })
-    .skip(perPage * (req.params.page - 1))
-    .limit(perPage);
+  const { id, page } = req.params;
+  if (isValidObjectId(id)) {
+    const blogs = await Blog.find({
+      "author.id": new mongoose.Types.ObjectId(id),
+    })
+      .sort({ createdAt: "desc" })
+      .skip(perPage * (page - 1))
+      .limit(perPage);
 
-  const total = await Blog.find({ "author.id": req.user._id }).count();
+    const total = await Blog.find({
+      "author.id": new mongoose.Types.ObjectId(id),
+    }).count();
 
-  res.status(200).json({ blogs, total });
+    res.json({ blogs, total, perPage });
+  } else {
+    throw new Error("not valid");
+  }
 });
 
 // get News |  GET  |  /api/me/news/:page   |   private
 const getNews = asyncHandler(async (req, res) => {
-  const perPage = 4;
   const news = await Blog.find({ "author.id": { $ne: req.user._id } })
     .sort({ createdAt: "desc" })
     .skip(perPage * (req.params.page - 1))
     .limit(perPage);
   const total = await Blog.find({ "author.id": { $ne: req.user._id } }).count();
-  res.json({ news, total });
+  res.json({ news, total, perPage });
 });
 
 // Delete User |  DELET  |  /api/me/delete   |   private
@@ -37,15 +55,16 @@ const DelUser = asyncHandler(async (req, res) => {
   const user = await User.deleteOne({ _id: req.user._id });
   if (user) {
     const blogs = await Blog.deleteMany({ "author.id": req.user._id });
-    res.json({ user, blogs });
+    res.json({ user, blogs, perPage });
   }
   res.status(500);
   throw new Error("try in another time");
 });
 
 module.exports = {
-  getUser,
+  getMe,
   userBlogs,
   getNews,
   DelUser,
+  getUserById,
 };

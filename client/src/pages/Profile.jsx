@@ -7,26 +7,26 @@ import Options from "../components/Options";
 import Pagenation from "../components/Pagenation";
 import ListItem from "../components/ListItem";
 import Pcontroll from "../components/Pcontroll";
-import { AiTwotoneDelete } from "react-icons/ai";
+import { AiTwotoneDelete, AiTwotoneSetting } from "react-icons/ai";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import { logout } from "../featchers/auth/authActions";
 import { postreset } from "../featchers/posts/postSlice";
 
 export default function Profile() {
   const { user } = useSelector((state) => state.auth);
+
   const { posts, loading } = useSelector((state) => state.posts);
   const dispatch = useDispatch();
   const [page, setPage] = useState(1);
   const navigate = useNavigate();
-
   useEffect(() => {
+    console.log(user);
     if (!user) {
       navigate("/login");
     } else {
-      dispatch(getUserPosts(page));
+      dispatch(getUserPosts({ page, id: user.id }));
     }
-
     return () => {
       dispatch(postreset());
     };
@@ -63,19 +63,24 @@ export default function Profile() {
   // console.log(error);
 
   // console.log(page);
-  const deletAcc = (
-    <ListItem
-      name="delete profile"
-      icone={<AiTwotoneDelete />}
-      cls="delAcc"
-      fun={deletProfile}
-    />
-  );
+
   return (
     <>
       {user && (
         <div className="view">
-          <Options custome={deletAcc} />
+          <Options>
+            <ListItem
+              to="/profile/setting"
+              name="setting"
+              icone={<AiTwotoneSetting />}
+            />
+            <ListItem
+              name="delete profile"
+              icone={<AiTwotoneDelete />}
+              cls="delAcc"
+              fun={deletProfile}
+            />
+          </Options>
 
           <div className="view_content">
             {loading && <Spinner />}
@@ -87,10 +92,15 @@ export default function Profile() {
                   <Post {...el} />
                 </div>
               ))}
-            <Pagenation {...{ next, prev }} />
+            <Pagenation
+              {...{ next, prev, page }}
+              total={posts.total}
+              per={posts.perPage}
+            />
           </div>
         </div>
       )}
+      <Outlet />
     </>
   );
 }

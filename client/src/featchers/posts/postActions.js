@@ -26,9 +26,9 @@ export const createPost = createAsyncThunk(
 
 export const getUserPosts = createAsyncThunk(
   "posts/getUserPosts",
-  async (page, { getState, rejectWithValue }) => {
+  async ({ id, page }, { getState, rejectWithValue }) => {
     try {
-      const response = await axios.get(API_URL + `me/blogs/${page}`, {
+      const response = await axios.get(API_URL + `me/blogs/${id}/${page}`, {
         headers: { Authorization: `Bearer ${getState().auth.user.token}` },
       });
       return response.data;
@@ -65,6 +65,25 @@ export const deletePost = createAsyncThunk(
     try {
       const token = getState().auth.user.token;
       const res = await axios.delete(`/api/blogs/${id}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      return res.data;
+    } catch (error) {
+      if (error.response || error.response.data) {
+        return rejectWithValue(error.response.data.error);
+      } else {
+        return rejectWithValue(error.message);
+      }
+    }
+  }
+);
+
+export const updatePost = createAsyncThunk(
+  "posts/update",
+  async ({ id, data }, { rejectWithValue, getState }) => {
+    try {
+      const token = getState().auth.user.token;
+      const res = await axios.put(`/api/blogs/${id}`, data, {
         headers: { Authorization: `Bearer ${token}` },
       });
       return res.data;

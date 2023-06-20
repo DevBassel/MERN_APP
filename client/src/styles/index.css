@@ -38,6 +38,10 @@ body {
   font-family: Arial, Helvetica, sans-serif;
   background: var(--light);
 }
+::-webkit-scrollbar{
+  width: 0;
+  height: 0;
+}
 a {
   text-decoration: none;
 }
@@ -148,9 +152,7 @@ form input {
   padding: 14px 12px;
   font-size: 16px;
 }
-form input::placeholder {
-  font-size: 13px;
-}
+
 form input {
   border: 1px solid #c0c0c0;
   transition: 0.2s;
@@ -227,7 +229,7 @@ form input:focus {
 }
 [type="file"] ~ label {
   width: 100%;
-  font-size: 1.4em;
+  font-size: 1.2em;
   padding: 10px;
   border: 1px solid #eee;
   border-radius: 2rem;
@@ -278,14 +280,12 @@ form input:focus {
   width: 25%;
   height: fit-content;
   position: sticky;
-  z-index: 99;
   top: 50px;
 }
 .view .opts ul li {
   list-style: none;
   position: relative;
   margin: 10px 5px;
-  padding: 10px;
   transition: 0.3s;
   border-radius: 4px;
 
@@ -303,6 +303,7 @@ form input:focus {
 }
 .view .opts ul li a {
   display: flex;
+  padding: 10px;
   align-items: center;
   color: inherit;
   font-weight: bold;
@@ -419,7 +420,7 @@ form input:focus {
   list-style: none;
   display: flex;
   width: 100%;
-  justify-content: space-between;
+  justify-content: center;
   padding: 5px 60px;
   font-size: 50px;
   color: var(--main-color);
@@ -462,10 +463,43 @@ form input:focus {
   list-style: none;
   cursor: pointer;
 }
-.post-featcher ul li.active  svg{
+.post-featcher ul li.active svg {
   color: var(--main-color);
 }
 
+.setting {
+  content: "";
+  position: fixed;
+  z-index: 101;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 100;
+}
+.setting > div {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  border-radius: 1rem;
+  padding: 10px;
+  width: 90%;
+  height: 80vh;
+  overflow: scroll;
+  max-width: 450px;
+  background: var(--hover-color);
+  transform: translate(-50%, -50%);
+  animation: drop 1s both;
+}
+@keyframes drop {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
 @media (max-width: 767px) {
   body {
     background: #000;
@@ -479,6 +513,7 @@ form input:focus {
   .view .opts {
     width: 100%;
     margin-bottom: 10px;
+    z-index: 99;
   }
   .view .opts ul {
     display: flex;

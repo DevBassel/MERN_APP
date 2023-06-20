@@ -1,18 +1,21 @@
 const express = require("express");
 const {
-  getUser,
+  getMe,
   userBlogs,
   getNews,
   DelUser,
+  getUserById,
 } = require("../controller/userController");
 
 // /api/me
 
 const userRouter = express.Router();
 
-userRouter.get("/", getUser);
+userRouter.get("/", getMe);
 
-userRouter.get("/blogs/:page", userBlogs);
+userRouter.get("/users/:id", getUserById);
+
+userRouter.get("/blogs/:id/:page", userBlogs);
 
 userRouter.get("/news/:page", getNews);
 
