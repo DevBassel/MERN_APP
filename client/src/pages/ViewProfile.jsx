@@ -4,7 +4,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import Options from "../components/Options";
 import { getUserPosts } from "../featchers/posts/postActions";
 import Spinner from "../components/Spinner";
-import Pcontroll from "../components/Pcontroll";
 import Post from "../components/Post";
 import Pagenation from "../components/Pagenation";
 import axios from "axios";
