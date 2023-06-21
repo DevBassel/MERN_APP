@@ -7,7 +7,8 @@
     "start": "node server/server.js",
     "server": "nodemon server/server.js",
     "client": "npm start --prefix client",
-    "bul": "npm i && npm i --prefix client",
+    "ins": "npm i && npm i --prefix client",
+    "bul": "npm run build --prefix client",
     "dev": "concurrently \"npm run server\" \"npm run client\""
   },
   "author": "Bassel",
