@@ -25,8 +25,10 @@ const singup = asyncHandler(async (req, res) => {
     });
 
     res.status(201).json({
-      _id: user._id,
-      name: user.name,
+      id: user._id,
+      name: `${user.name}`,
+      image: user.image,
+      email: user.email,
       token: genToken(user._id),
     });
   }

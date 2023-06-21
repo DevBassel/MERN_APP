@@ -7,7 +7,7 @@ import { authreset } from "../featchers/auth/authSlice";
 function Header() {
   const navegate = useNavigate();
   const dispatch = useDispatch();
-  const { user ,some} = useSelector((state) => state.auth);
+  const { user, some } = useSelector((state) => state.auth);
   const logOut = () => {
     dispatch(logout());
     dispatch(postreset());
@@ -22,7 +22,7 @@ function Header() {
       <ul>
         {user ? (
           <>
-            <li>Hi, {user && some.name}</li>
+            <li>Hi, {some && some.name}</li>
             <li onClick={logOut}>
               <BiLogOut /> logout
             </li>

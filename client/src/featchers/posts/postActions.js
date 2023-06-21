@@ -11,7 +11,11 @@ export const createPost = createAsyncThunk(
           Authorization: `Bearer ${getState().auth.user.token}`,
         },
       };
-      const response = await axios.post(API_URL + "blogs", data, config);
+      const response = await axios.post(
+        API_URL + "blogs",
+        { ...data, img: getState().auth.some.image },
+        config
+      );
 
       return response.data;
     } catch (error) {

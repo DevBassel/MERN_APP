@@ -14,7 +14,7 @@ const mongoose = require("mongoose");
 const blogSchema = mongoose.Schema(
   {
     author: {
-      type: Object,
+      type: mongoose.Types.ObjectId,
       ref: "User",
       required: [true, "add author"],
     },

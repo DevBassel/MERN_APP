@@ -6,15 +6,14 @@ const asyncHandler = require("express-async-handler");
 
 // Add Blog   |   POST    |   /api/blog   |   private
 const addBlog = asyncHandler(async (req, res) => {
-  // const { tittle, content, image } = req.body;
+  const { tittle, content, image, img } = req.body;
   try {
     // console.log(req.body);
     const blog = await Blog.create({
-      ...req.body,
-      author: {
-        id: new mongoose.Types.ObjectId(req.user._id),
-        name: req.user.name,
-      },
+      tittle,
+      content,
+      image,
+      author: req.user._id,
     });
     // console.log(blog);
     res.status(201).json(blog);

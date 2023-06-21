@@ -16,6 +16,8 @@ export default function ViewProfile() {
   const [page, setPage] = useState(1);
   const dispatch = useDispatch();
   const { posts, loading } = useSelector((state) => state.posts);
+  const { some } = useSelector((state) => state.auth);
+
   const [userViewed, setVi] = useState({});
   useEffect(() => {
     if (user.id === id) {
@@ -52,27 +54,28 @@ export default function ViewProfile() {
       });
     }
   };
-console.log(userViewed)
+  console.log(userViewed);
   return (
     <div className="view">
       <Options />
       <div className="view_content">
-        <h2>Name: {userViewed.name}</h2>
-       {userViewed && userViewed.createdAt &&  <h2>
-          Join at: {userViewed.createdAt.split("T")[0]} |{" "}
-          {userViewed.createdAt.split("T")[1].split(".")[0]}
-        </h2>}
-
-        <div>
-          <div className="userPic">
-            <img src="" alt="userPic" />
+        <div className="userInfo">
+          <div>
+            <div className="userPic">
+              <img src={some.image} alt="userPic" />
+            </div>
+            <h2>Name: {userViewed.name}</h2>
+            {userViewed && userViewed.createdAt && (
+              <h2>
+                Join at: {userViewed.createdAt.split("T")[0]} |{" "}
+                {userViewed.createdAt.split("T")[1].split(".")[0]}
+              </h2>
+            )}
           </div>
-          <div className="user_data"></div>
         </div>
-        <div className="userPosts"></div>
         <div>
           {loading && <Spinner />}
-
+          <h1>All posts</h1>
           {posts.blogs &&
             posts.blogs.map((el) => (
               <div className="box" key={el._id}>

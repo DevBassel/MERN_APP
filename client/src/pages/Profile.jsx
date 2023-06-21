@@ -21,9 +21,10 @@ export default function Profile() {
   useEffect(() => {
     if (!user) {
       navigate("/login");
-    } else {
-      dispatch(getUserPosts({ page, id: user.id }));
     }
+    
+      dispatch(getUserPosts({ page, id: user.id }));
+    
     return () => {
       dispatch(postreset());
     };

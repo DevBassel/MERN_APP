@@ -57,6 +57,7 @@ function Dashbord() {
         <div className="view">
           <Options />
           <div className="view_content">
+            {!posts.total && <h1>No News</h1>}
             {loading && <Spinner />}
             {posts.news &&
               posts.news.map((el) => (

@@ -1,6 +1,10 @@
-import { FaUserAlt } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import PostFeatcher from "./PostFeatcher";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { useSelector } from "react-redux";
+import { FaUserAlt } from "react-icons/fa";
+
 export default function Post({
   _id,
   tittle,
@@ -9,15 +13,29 @@ export default function Post({
   author,
   createdAt,
 }) {
+  const [info, setInfo] = useState({});
+  const { user } = useSelector((s) => s.auth);
+  useEffect(() => {
+    axios
+      .get(`/api/me/users/${author}`, {
+        headers: { Authorization: `Bearer ${user.token}` },
+      })
+      .then((res) => setInfo(res.data));
+  }, [author, user.token]);
+
   return (
     <>
       <div className="post-content">
         <div className="info">
           <span>
-            <FaUserAlt />
+            {info && info.image ? (
+              <img src={info.image} alt="userImg" />
+            ) : (
+              <FaUserAlt />
+            )}
           </span>
           <div>
-            <Link to={`/users/${author.id}`}>{author.name}</Link>
+            <Link to={`/users/${author}`}>{info.name}</Link>
             <p>
               {createdAt.split("T")[0]} |{" "}
               {createdAt.split("T")[1].split(".")[0]}

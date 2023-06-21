@@ -28,7 +28,7 @@ function Signup() {
       console.log(error);
     }
     if (user) {
-      navgite("/");
+      navgite("/profile/setting");
     }
   }, [navgite, user, error]);
 
@@ -45,7 +45,7 @@ function Signup() {
           password,
         })
       );
-      dispatch(authreset())
+      dispatch(authreset());
     } else {
       dispatch(addError("2 passwords  must be ==="));
       setTimeout(() => dispatch(authreset()), 3000);

@@ -29,9 +29,14 @@ const authSlice = createSlice({
       state.loading = true;
     },
     [register.fulfilled]: (state, action) => {
+      const { token, name, email, image, id } = action.payload;
       state.loading = false;
       state.islogin = true;
-      state.user = action.payload;
+      state.user = { id, token };
+      state.some = { image, name, email };
+
+      localStorage.setItem("some", JSON.stringify({ image, name, email }));
+      localStorage.setItem("user", JSON.stringify({ id, token }));
     },
     [register.rejected]: (state, action) => {
       state.loading = false;

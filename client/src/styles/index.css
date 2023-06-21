@@ -44,6 +44,7 @@ body {
 }
 a {
   text-decoration: none;
+  display: block;
 }
 nav {
   display: flex;
@@ -157,6 +158,8 @@ button {
 .del {
   background: #f44336;
   color: #fff;
+  scale: 0.3;
+  margin-top: 50px;
 }
 form input,
 button {
@@ -363,7 +366,10 @@ form input:focus {
   flex-direction: column;
   justify-content: center;
 }
-
+a {
+  text-decoration: none;
+  color: #fff;
+}
 .view_content .box {
   position: relative;
   background: var(--light);
@@ -394,6 +400,28 @@ form input:focus {
   display: flex;
   border-bottom: 1px solid #c0c0c0;
   margin-bottom: 20px;
+}
+.post-content .info span{
+  display: block;
+  width: 60px;
+  height: 60px;
+  margin-right: 20px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+.userInfo{
+  border-bottom: 5px solid #3189c4 ;
+margin-bottom: 100px;
+}
+.userPic {
+  width: 100%;
+}
+.userPic img{
+  width: 100%;
+}
+.post-content .info img{
+  width: 100%;
+  height: 100%;
 }
 .post-content .info div {
   font-size: 13px;

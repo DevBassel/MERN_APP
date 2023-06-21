@@ -27,6 +27,7 @@ export default function Setting() {
     if (!user) {
       navigate("/login");
     }
+    dispatch(postreset());
   }, [dispatch, error, navigate, user]);
 
   const getData = ({ target }) => {
@@ -74,6 +75,8 @@ export default function Setting() {
     <div className="setting">
       {<div className={`err ${error ? "active" : ""}`}>{error}</div>}
       <div className="settingContent">
+        <button onClick={() => navigate("/")}>Go to Home</button>
+
         <form onSubmit={submit}>
           {loading && <Spinner />}
           <h1>Update Your Profile</h1>
@@ -87,12 +90,14 @@ export default function Setting() {
               icone={<RiImageAddFill />}
               accept="image/*"
             />
-            <div
-              style={{ width: 150, height: 150 }}
-              className={`postImg ${image ? " active" : ""}`}
-            >
-              <img src={image} alt="PostImage" />
-            </div>
+            {image && (
+              <div
+                style={{ width: 150, height: 150 }}
+                className={`postImg ${image ? " active" : ""}`}
+              >
+                <img src={image} alt="UserPic" />
+              </div>
+            )}
           </div>
           <Input name="name" onChange={getData} id="updateName" value={name} />
           <Input
