@@ -19,6 +19,9 @@ const userSchema = mongoose.Schema(
       type: String,
       required: [true, "plase enter a password"],
     },
+    IP: {
+      type: String,
+    },
   },
   {
     timestamps: true,
