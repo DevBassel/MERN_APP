@@ -41,6 +41,7 @@ export default function Setting() {
     e.preventDefault();
     dispatch(UpdataProfile(Data));
     setTimeout(() => dispatch(addError("")), 3000);
+    navigate("/profile")
   };
   const deletProfile = async () => {
     await axios.delete("/api/me/delete", {
@@ -72,10 +73,10 @@ export default function Setting() {
   };
   const { name, email, password, image } = Data;
   return (
-    <div className="setting">
+    <div className="popup">
       {<div className={`err ${error ? "active" : ""}`}>{error}</div>}
-      <div className="settingContent">
-        <button onClick={() => navigate("/")}>Go to Home</button>
+      <div className="popupContent">
+        <button className="x" onClick={() => navigate("/")}>X</button>
 
         <form onSubmit={submit}>
           {loading && <Spinner />}
@@ -109,7 +110,7 @@ export default function Setting() {
           <Input
             name="password"
             id="pass1"
-            lable="password"
+            lable="veryfiy password"
             onChange={getData}
             value={password}
             required

@@ -23,15 +23,29 @@ const addBlog = asyncHandler(async (req, res) => {
   }
 });
 
+// get Blog   |   GET    |   /api/blog/:id   |   private
+const getBlogById = asyncHandler(async (req, res) => {
+  const blog = await Blog.findById(req.params.id);
+  if (blog) {
+    return res.json(blog);
+  } else {
+    res.status(404);
+    throw new Error("Not Found");
+  }
+});
+
 // Update Blog   |  PUT   |   /api/blog/:id   |   private
 const updateBlog = asyncHandler(async (req, res) => {
   const { id } = req.params;
-
+  const { tittle, content, image } = req.body;
   if (isValidObjectId(id)) {
     const blog = await Blog.findById(id);
     //  console.log(blog);
     if (blog.author.toString() === req.user._id.toString()) {
-      await Blog.findByIdAndUpdate(id, { ...req.body });
+      await Blog.findByIdAndUpdate(id, {
+        $set: { tittle, content, image },
+      });
+      
       res.status(200).json({ sccess: true });
     } else {
       res.status(404);
@@ -148,6 +162,12 @@ const totalActions = asyncHandler(async (req, res) => {
   throw new Error("Not found");
 });
 
+const removeAllUserBlogs = asyncHandler(async (req, res) => {
+  const task = await Blog.deleteMany({ author: req.user._id });
+
+  res.json(task);
+});
+
 module.exports = {
   updateBlog,
   addBlog,
@@ -155,4 +175,6 @@ module.exports = {
   blogLike,
   blogDislike,
   totalActions,
+  removeAllUserBlogs,
+  getBlogById,
 };

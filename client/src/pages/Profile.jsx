@@ -7,9 +7,10 @@ import Options from "../components/Options";
 import Pagenation from "../components/Pagenation";
 import ListItem from "../components/ListItem";
 import Pcontroll from "../components/Pcontroll";
-import {  AiTwotoneSetting } from "react-icons/ai";
+import { AiFillDelete, AiTwotoneSetting } from "react-icons/ai";
 import { Outlet, useNavigate } from "react-router-dom";
 import { postreset } from "../featchers/posts/postSlice";
+import axios from "axios";
 
 export default function Profile() {
   const { user } = useSelector((state) => state.auth);
@@ -21,10 +22,10 @@ export default function Profile() {
   useEffect(() => {
     if (!user) {
       navigate("/login");
-    }
-    
+    } else {
       dispatch(getUserPosts({ page, id: user.id }));
-    
+    }
+
     return () => {
       dispatch(postreset());
     };
@@ -49,10 +50,16 @@ export default function Profile() {
     }
   };
 
-  
-  // console.log(error);
-
-  // console.log(page);
+  const removeAllUserBlogs = () => {
+    axios
+      .delete("/api/blogs/remove/allBlogs", {
+        headers: { Authorization: `Bearer ${user.token}` },
+      })
+      .then((res) => {
+        if (res.data.acknowledged) navigate("/");
+      })
+      .catch((error) => console.log(error));
+  };
 
   return (
     <>
@@ -64,11 +71,18 @@ export default function Profile() {
               name="setting"
               icone={<AiTwotoneSetting />}
             />
-           
+            {posts.total ? (
+              <ListItem
+                to=""
+                name="delete All posts"
+                icone={<AiFillDelete />}
+                fun={removeAllUserBlogs}
+              />
+            ) : null}
           </Options>
 
           <div className="view_content">
-            {loading && <Spinner />}
+            {loading && <Spinner cls="fixed" />}
 
             {posts.blogs &&
               posts.blogs.map((el) => (

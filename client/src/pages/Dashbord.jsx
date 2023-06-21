@@ -58,7 +58,7 @@ function Dashbord() {
           <Options />
           <div className="view_content">
             {!posts.total && <h1>No News</h1>}
-            {loading && <Spinner />}
+            {loading && <Spinner cls={"fixed"} />}
             {posts.news &&
               posts.news.map((el) => (
                 <div className="box" key={el._id}>

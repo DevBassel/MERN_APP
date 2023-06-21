@@ -25,14 +25,14 @@ const userBlogs = asyncHandler(async (req, res) => {
   const { id, page } = req.params;
   if (isValidObjectId(id)) {
     const blogs = await Blog.find({
-      "author": new mongoose.Types.ObjectId(id),
+      author: new mongoose.Types.ObjectId(id),
     })
       .sort({ createdAt: "desc" })
       .skip(perPage * (page - 1))
       .limit(perPage);
 
     const total = await Blog.find({
-      "author": new mongoose.Types.ObjectId(id),
+      author: new mongoose.Types.ObjectId(id),
     }).count();
 
     res.json({ blogs, total, perPage });
@@ -43,13 +43,15 @@ const userBlogs = asyncHandler(async (req, res) => {
 
 // get News |  GET  |  /api/me/news/:page   |   private
 const getNews = asyncHandler(async (req, res) => {
-  const news = await Blog.find({ "author": { $ne: req.user._id } })
+  const news = await Blog.find({ author: { $ne: req.user._id } })
     .sort({ createdAt: "desc" })
     .skip(perPage * (req.params.page - 1))
     .limit(perPage);
-  const total = await Blog.find({ "author": { $ne: req.user._id } }).count();
+  const total = await Blog.find({ author: { $ne: req.user._id } }).count();
   res.json({ news, total, perPage });
 });
+
+// update User Data |  GET  |  /api/me/api/me   |   private
 const UpdateUser = asyncHandler(async (req, res) => {
   const { name, image, email, password } = req.body;
   const user = await User.findById(req.user._id);
@@ -69,7 +71,7 @@ const UpdateUser = asyncHandler(async (req, res) => {
     });
   } else {
     res.status(401);
-    throw new Error("Not Valid Password");
+    throw new Error("Wrong Password");
   }
 });
 
@@ -77,7 +79,7 @@ const UpdateUser = asyncHandler(async (req, res) => {
 const DelUser = asyncHandler(async (req, res) => {
   const user = await User.deleteOne({ _id: req.user._id });
   if (user) {
-    const blogs = await Blog.deleteMany({ "author": req.user._id });
+    const blogs = await Blog.deleteMany({ author: req.user._id });
     res.json({ user, blogs, perPage });
   }
   res.status(500);

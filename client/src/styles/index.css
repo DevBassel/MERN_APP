@@ -121,12 +121,13 @@ form p {
   margin-top: 15px;
 }
 .err {
-  position: sticky;
+  position: fixed;
   z-index: 99;
-  top: -9px;
+  top: 0;
   left: 0;
   background: #f44336;
   color: #fff;
+  font-size: 23px;
   font-weight: bold;
   overflow: hidden;
   height: 0;
@@ -135,10 +136,11 @@ form p {
   width: 100%;
 }
 .err.active {
-  height: 20px;
+  height: 30px;
 }
 
 form {
+  position: relative;
   margin: 20px auto;
   padding: 20px;
   border-radius: 2rem;
@@ -246,6 +248,7 @@ form input:focus {
   border: 1px solid #eee;
   border-radius: 2rem;
 }
+
 .spinner {
   position: absolute;
   top: 0;
@@ -253,7 +256,7 @@ form input:focus {
   height: 100%;
   width: 100%;
   background: rgba(0, 0, 0, 0.7);
-  z-index: 10;
+  z-index: 1000;
 }
 
 .spinner::after {
@@ -269,7 +272,9 @@ form input:focus {
   border-color: transparent var(--main-color);
   animation: spinner 1s infinite;
 }
-
+.fixed{
+  position: fixed;
+}
 @keyframes spinner {
   from {
     transform: translate(-50%, -50%) rotateZ(0);
@@ -399,9 +404,10 @@ a {
 .post-content .info {
   display: flex;
   border-bottom: 1px solid #c0c0c0;
-  margin-bottom: 20px;
+  padding-bottom: 10px;
+  margin-bottom: 10px;
 }
-.post-content .info span{
+.post-content .info span {
   display: block;
   width: 60px;
   height: 60px;
@@ -409,17 +415,17 @@ a {
   border-radius: 50%;
   overflow: hidden;
 }
-.userInfo{
-  border-bottom: 5px solid #3189c4 ;
-margin-bottom: 100px;
+.userInfo {
+  border-bottom: 5px solid #3189c4;
+  margin-bottom: 100px;
 }
 .userPic {
   width: 100%;
 }
-.userPic img{
+.userPic img {
   width: 100%;
 }
-.post-content .info img{
+.post-content .info img {
   width: 100%;
   height: 100%;
 }
@@ -504,7 +510,7 @@ margin-bottom: 100px;
   color: var(--main-color);
 }
 
-.setting {
+.popup {
   content: "";
   position: fixed;
   z-index: 101;
@@ -515,14 +521,21 @@ margin-bottom: 100px;
   background: rgba(0, 0, 0, 0.7);
   z-index: 100;
 }
-.setting .settingContent {
+.popup .x {
+  position: absolute;
+  z-index: 44;
+  width: fit-content;
+  top: 0;
+}
+.popup .popupContent {
   position: absolute;
   left: 50%;
   top: 50%;
   border-radius: 1rem;
   padding: 10px;
   width: 90%;
-  height: 90vh;
+  height: fit-content;
+  max-height: 90vh;
   overflow: scroll;
   max-width: 450px;
   background: var(--hover-color);
@@ -556,8 +569,14 @@ margin-bottom: 100px;
     display: flex;
     justify-content: space-around;
   }
-  .view .opts ul span {
-    display: none;
+  .view .opts ul li a {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+  }
+  .view .opts ul li a span {
+    font-size: 13px;
   }
   form {
     width: 100%;

@@ -19,6 +19,7 @@ const authSlice = createSlice({
       state.islogin = false;
       state.user = "";
       state.error = "";
+      state.some = [];
     },
     addError: (state, { payload }) => {
       state.error = payload;

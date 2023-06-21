@@ -7,13 +7,17 @@ const {
   blogLike,
   blogDislike,
   totalActions,
+  removeAllUserBlogs,
+  getBlogById,
 } = require("../controller/blogController");
 
 // /api/blogs
 
-blogRouter.post("/",addBlog);
+blogRouter.post("/", addBlog);
 
-blogRouter.route("/:id").delete(deleteBlog).put(updateBlog);
+blogRouter.route("/:id").get(getBlogById).delete(deleteBlog).put(updateBlog);
+
+blogRouter.delete("/remove/allBlogs", removeAllUserBlogs);
 
 // Likes and DisLikes
 blogRouter.put("/like/:id", blogLike);

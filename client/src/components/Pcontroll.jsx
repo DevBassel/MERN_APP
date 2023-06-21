@@ -19,7 +19,7 @@ export default function Pcontroll({ id }) {
         <AiTwotoneDelete />
       </li>
 
-      <li>
+      <li onClick={() => navigate(`/profile/updatePost/${id}`)}>
         <AiFillEdit />
       </li>
     </ul>
