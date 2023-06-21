@@ -60,7 +60,7 @@ const UpdateUser = asyncHandler(async (req, res) => {
     await User.updateOne(
       { _id: req.user._id },
       {
-        $set: { name: name, email: email, image: image },
+        $set: { name, email, image },
       }
     );
     const updated = await User.findById(req.user._id).select("-password");

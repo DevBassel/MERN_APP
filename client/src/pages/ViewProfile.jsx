@@ -15,7 +15,6 @@ export default function ViewProfile() {
   const [page, setPage] = useState(1);
   const dispatch = useDispatch();
   const { posts, loading } = useSelector((state) => state.posts);
-  const { some } = useSelector((state) => state.auth);
 
   const [userViewed, setVi] = useState({});
   useEffect(() => {
@@ -61,7 +60,7 @@ export default function ViewProfile() {
         <div className="userInfo">
           <div>
             <div className="userPic">
-              <img src={some.image} alt="userPic" />
+              <img src={userViewed && userViewed.image} alt="userPic" />
             </div>
             <h2>Name: {userViewed.name}</h2>
             {userViewed && userViewed.createdAt && (

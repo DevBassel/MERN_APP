@@ -14,6 +14,7 @@ export default function Post({
   createdAt,
 }) {
   const [info, setInfo] = useState({});
+  
   const { user } = useSelector((s) => s.auth);
   useEffect(() => {
     axios

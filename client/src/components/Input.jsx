@@ -4,7 +4,7 @@ export default function Input(props) {
       <input {...props} />
       <label htmlFor={props.id}>
         {props.icone}
-        {props.lable || props.name}
+        {props.lable || props.name} (Opt)
       </label>
     </div>
   );
