@@ -14,7 +14,7 @@ export default function Post({
   createdAt,
 }) {
   const [info, setInfo] = useState({});
-  
+
   const { user } = useSelector((s) => s.auth);
   useEffect(() => {
     axios
@@ -37,10 +37,12 @@ export default function Post({
           </span>
           <div>
             <Link to={`/users/${author}`}>{info.name}</Link>
-            <p>
-              {createdAt.split("T")[0]} |{" "}
-              {createdAt.split("T")[1].split(".")[0]}
-            </p>
+            {createdAt && (
+              <p>
+                {createdAt.split("T")[0]} |{" "}
+                {createdAt.split("T")[1].split(".")[0]}
+              </p>
+            )}
           </div>
         </div>
         <div className="content">

@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import Spinner from "../components/Spinner";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import Options from "../components/Options";
 import { getNews } from "../featchers/posts/postActions";
 import Pagenation from "../components/Pagenation";

@@ -8,6 +8,8 @@ import AddPost from "./pages/AddPost";
 import ViewProfile from "./pages/ViewProfile";
 import Setting from "./pages/Setting";
 import UpdatePost from "./components/UpdatePost";
+import Comments from "./pages/Comments";
+import AddComment from "./components/AddComment";
 
 function App() {
   return (
@@ -24,6 +26,9 @@ function App() {
             <Route path="/profile" element={<Profile />}>
               <Route path="setting" element={<Setting />} />
               <Route path="updatePost/:id" element={<UpdatePost />} />
+            </Route>
+            <Route path="/comments/:id" element={<Comments />}>
+              <Route path="addComment" element={<AddComment />} />
             </Route>
             <Route path="/addPost" element={<AddPost />} />
             <Route path="/users/:id" element={<ViewProfile />} />

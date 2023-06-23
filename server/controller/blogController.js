@@ -1,6 +1,7 @@
 const Blog = require("../models/Blog");
 const { isValidObjectId, default: mongoose } = require("mongoose");
 const asyncHandler = require("express-async-handler");
+const Comment = require("../models/Comment");
 
 // Get  blogs with user id    |   GET   |   /api/blog   | private
 
@@ -45,7 +46,7 @@ const updateBlog = asyncHandler(async (req, res) => {
       await Blog.findByIdAndUpdate(id, {
         $set: { tittle, content, image },
       });
-      
+
       res.status(200).json({ sccess: true });
     } else {
       res.status(404);
@@ -147,10 +148,11 @@ const totalActions = asyncHandler(async (req, res) => {
       if (blog.usersDisLikes.includes(req.user._id)) {
         useris = "dislike";
       }
-
+      const comments = await Comment.find({ blogId }).count();
       return res.json({
         likes: blog.usersLikes.length,
         disLikes: blog.usersDisLikes.length,
+        comments,
         useris,
       });
     }

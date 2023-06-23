@@ -3,9 +3,12 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { BiLike, BiDislike, BiCommentDots } from "react-icons/bi";
 import Spinner from "../components/Spinner";
+import { useNavigate } from "react-router-dom";
 export default function PostFeatcher({ id }) {
   // console.log(id);
+
   const token = useSelector((state) => state.auth.user.token);
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [actions, setActions] = useState({
     likes: 0,
@@ -83,8 +86,8 @@ export default function PostFeatcher({ id }) {
           >
             <BiDislike /> {actions.disLikes}
           </li>
-          <li className="commint">
-            <BiCommentDots />
+          <li className="comment" onClick={() => navigate(`/comments/${id}`)}>
+            <BiCommentDots /> {actions.comments}
           </li>
         </ul>
       )}
