@@ -20,7 +20,7 @@ function Signup() {
   const dispatch = useDispatch();
   const navgite = useNavigate();
 
-  const { user, isloading, error } = useSelector((state) => state.auth);
+  const { user, loading, error } = useSelector((state) => state.auth);
   const { Fname, Lname, email, password, password2 } = Data;
 
   useEffect(() => {
@@ -45,16 +45,15 @@ function Signup() {
           password,
         })
       );
-      dispatch(authreset());
     } else {
       dispatch(addError("2 passwords  must be ==="));
       setTimeout(() => dispatch(authreset()), 3000);
     }
   };
-
+  console.log(loading);
   return (
     <form onSubmit={submit}>
-      {isloading && <Spinner />}
+      {loading && <Spinner cls={"fixed"} />}
       {<div className={`err ${error ? "active" : ""}`}>{error}</div>}
       <h1>Welcome,</h1>
       <p>Please Enter Your Data</p>
