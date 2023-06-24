@@ -15,6 +15,7 @@ const {
   getBlogComments,
   updateComment,
   deleteComment,
+  getCommentById,
 } = require("../controller/commentController");
 
 // /api/blogs
@@ -29,12 +30,10 @@ blogRouter.delete("/remove/allBlogs", removeAllUserBlogs);
 
 // bolg comments
 blogRouter.post("/addComment/:id", addComment);
-
 blogRouter.put("/updateComment/:id", updateComment);
-
 blogRouter.delete("/deleteComment/:id", deleteComment);
-
 blogRouter.get("/getBlogComments/:id", getBlogComments);
+blogRouter.get("/getCommentById/:id", getCommentById);
 
 // Likes and DisLikes
 blogRouter.put("/like/:id", blogLike);

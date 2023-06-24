@@ -2,18 +2,22 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { FaUserAlt } from "react-icons/fa";
 import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Comment({ content, createdAt, author }) {
   const [info, setInfo] = useState({});
   const { user } = useSelector((state) => state.auth);
+  const navigate = useNavigate();
   useEffect(() => {
+    if (!user) {
+      navigate("/login");
+    }
     axios
       .get(`/api/me/users/${author}`, {
         headers: { Authorization: `Bearer ${user.token}` },
       })
       .then((res) => setInfo(res.data));
-  }, [author, user.token]);
+  }, [author, navigate, user, user.token]);
   return (
     <>
       <div className="info">

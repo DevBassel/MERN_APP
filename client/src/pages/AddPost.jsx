@@ -7,7 +7,6 @@ import { createPost } from "../featchers/posts/postActions";
 import Spinner from "../components/Spinner";
 import { useNavigate } from "react-router-dom";
 import Options from "../components/Options";
-import { logout } from "../featchers/auth/authActions";
 import { handleImage } from "../components/help";
 import { addError, postreset } from "../featchers/posts/postSlice";
 
@@ -33,7 +32,6 @@ export default function AddPost() {
 
   useEffect(() => {
     if (!user) {
-      dispatch(logout());
       navigate("/login");
     }
   }, [dispatch, navigate, user]);

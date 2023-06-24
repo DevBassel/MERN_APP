@@ -2,6 +2,7 @@ const asyncHandler = require("express-async-handler");
 const Blog = require("../models/Blog");
 const User = require("../models/User");
 const { isValidObjectId, default: mongoose } = require("mongoose");
+const Comment = require("../models/Comment");
 const bcrypt = require("bcrypt");
 const perPage = 5;
 
@@ -79,8 +80,10 @@ const UpdateUser = asyncHandler(async (req, res) => {
 const DelUser = asyncHandler(async (req, res) => {
   const user = await User.deleteOne({ _id: req.user._id });
   if (user) {
-    const blogs = await Blog.deleteMany({ author: req.user._id });
-    res.json({ user, blogs, perPage });
+    await Blog.deleteMany({ author: req.user._id });
+    await Comment.deleteMany({ author: req.user._id });
+
+    res.json({ msg: "success" });
   }
   res.status(500);
   throw new Error("try in another time");

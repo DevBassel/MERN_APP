@@ -15,6 +15,7 @@ export default function PostFeatcher({ id }) {
     disLikes: 0,
     useris: "none",
   });
+  const { comments } = useSelector((s) => s.comment);
 
   useEffect(() => {
     // console.log(token)
@@ -31,7 +32,7 @@ export default function PostFeatcher({ id }) {
         console.log(error);
       }
     })();
-  }, [id, token, loading]);
+  }, [id, token, loading, comments]);
   // console.log(actions);
   const like = () => {
     setLoading(true);

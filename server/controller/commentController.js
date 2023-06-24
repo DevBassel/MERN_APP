@@ -34,11 +34,14 @@ const getBlogComments = asyncHandler(async (req, res) => {
 const deleteComment = asyncHandler(async (req, res) => {
   const { id } = req.params;
   if (isValidObjectId(id)) {
-    const comment = await Comment.deleteOne({ _id: id });
-    if (comment) return res.json(comment);
-    else {
-      res.status(404);
-      throw new Error("Not Found");
+    const comment = await Comment.findById(id);
+    if (comment.author.toString() === req.user._id.toString()) {
+      await Comment.deleteOne({ _id: id });
+      if (comment) return res.json({ mdg: "success" });
+      else {
+        res.status(404);
+        throw new Error("Not Found");
+      }
     }
   } else throw new Error("Not Valid ID");
 });
@@ -48,17 +51,27 @@ const updateComment = asyncHandler(async (req, res) => {
   const { id } = req.params;
   const { content } = req.body;
   if (isValidObjectId(id)) {
-    const comment = await Comment.updateOne({ _id: id }, { $set: { content } });
-    if (comment) return res.json(comment);
-    else {
-      res.status(404);
-      throw new Error("Not Found");
+    const comment = await Comment.findById(id);
+    if (comment.author.toString() === req.user._id.toString()) {
+      await Comment.updateOne({ _id: id }, { $set: { content } });
+      return res.json({ msg: "success" });
     }
   } else throw new Error("Not Valid ID");
 });
+
+// get one comment   |   GETE   |    /api/blogs/getCommentById/:[comment ID]   |   privete
+const getCommentById = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+  if (isValidObjectId(id)) {
+    const comment = await Comment.findOne({ _id: id });
+    return res.json(comment);
+  } else throw new Error("Not Valid ID");
+});
+
 module.exports = {
   addComment,
   deleteComment,
   updateComment,
+  getCommentById,
   getBlogComments,
 };

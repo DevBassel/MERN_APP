@@ -553,19 +553,22 @@ a {
 .comments .box {
   border-radius: 10px;
   padding: 10px;
+  top: 0;
+  position: relative;
 }
+
 .comments .box .info {
   display: flex;
   margin-bottom: 20px;
 }
-.comments .box a{
+.comments .box a {
   color: #000;
 }
-.comments .box  .info p{
+.comments .box .info p {
   color: gray;
   font-size: 12px;
 }
-.comments .box  .info img{
+.comments .box .info img {
   width: 100%;
   height: 100%;
   border-radius: 50%;
@@ -576,23 +579,39 @@ a {
   height: 40px;
   font-size: 40px;
 }
-.comments .box  .content{
+.comments .box .content {
   padding-left: 20px;
+}
+.addComment {
+  position: fixed;
+  bottom: 50px;
+  right: 50px;
+  font-size: 40px;
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  z-index: 100;
+  border: 3px solid var(--section-color);
 }
 @media (max-width: 767px) {
   body {
     background: #000;
   }
+  nav {
+    position: static;
+  }
   .view {
     flex-direction: column;
   }
   .view_content {
+    position: relative;
     width: 100% !important;
   }
   .view .opts {
     width: 100%;
     margin-bottom: 10px;
     z-index: 99;
+    top: 0;
   }
   .view .opts ul {
     display: flex;

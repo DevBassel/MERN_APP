@@ -23,7 +23,7 @@ const singup = asyncHandler(async (req, res) => {
       password,
       IP: req.ip,
     });
-
+    console.log(user);
     res.status(201).json({
       id: user._id,
       name: `${user.name}`,

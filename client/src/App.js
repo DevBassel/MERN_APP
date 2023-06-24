@@ -10,6 +10,8 @@ import Setting from "./pages/Setting";
 import UpdatePost from "./components/UpdatePost";
 import Comments from "./pages/Comments";
 import AddComment from "./components/AddComment";
+import UpdateComment from "./components/UpdateComment";
+
 
 function App() {
   return (
@@ -29,6 +31,7 @@ function App() {
             </Route>
             <Route path="/comments/:id" element={<Comments />}>
               <Route path="addComment" element={<AddComment />} />
+              <Route path="updateComment/:commentID" element={<UpdateComment /> } />
             </Route>
             <Route path="/addPost" element={<AddPost />} />
             <Route path="/users/:id" element={<ViewProfile />} />
