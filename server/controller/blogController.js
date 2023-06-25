@@ -60,14 +60,14 @@ const updateBlog = asyncHandler(async (req, res) => {
 // Delete  Blog |  DELETE  |  /api/blog/:id   |   private
 const deleteBlog = asyncHandler(async (req, res) => {
   const { id } = req.params;
-  console.log(id);
+  // console.log(id);
   if (isValidObjectId(id)) {
     const blog = await Blog.findById(id);
     //  console.log(blog);
     if (blog) {
-      if (blog.author.id.toString() === req.user._id.toString()) {
+      if (blog.author.toString() === req.user._id.toString()) {
         await Blog.findByIdAndDelete(id);
-        res.status(200).json({ sccess: true });
+       return res.status(200).json({ sccess: true });
       }
     } else {
       res.status(404);

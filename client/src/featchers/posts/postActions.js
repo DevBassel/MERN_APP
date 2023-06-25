@@ -73,7 +73,7 @@ export const deletePost = createAsyncThunk(
       });
       return res.data;
     } catch (error) {
-      if (error.response || error.response.data) {
+      if (error.response && error.response.data) {
         return rejectWithValue(error.response.data.error);
       } else {
         return rejectWithValue(error.message);
@@ -92,7 +92,7 @@ export const updatePost = createAsyncThunk(
       });
       return res.data;
     } catch (error) {
-      if (error.response || error.response.data) {
+      if (error.response && error.response.data) {
         return rejectWithValue(error.response.data.error);
       } else {
         return rejectWithValue(error.message);
