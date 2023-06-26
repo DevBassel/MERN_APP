@@ -67,7 +67,10 @@ const deleteBlog = asyncHandler(async (req, res) => {
     if (blog) {
       if (blog.author.toString() === req.user._id.toString()) {
         await Blog.findByIdAndDelete(id);
-       return res.status(200).json({ sccess: true });
+        return res.status(200).json({ sccess: true });
+      } else {
+        res.status(401);
+        throw new Error("no access");
       }
     } else {
       res.status(404);

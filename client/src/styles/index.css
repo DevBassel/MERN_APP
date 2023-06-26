@@ -160,7 +160,7 @@ button {
 .del {
   background: #f44336;
   color: #fff;
-  scale: 0.3;
+  scale: 0.8;
   margin-top: 50px;
 }
 form input,
@@ -388,7 +388,7 @@ a {
   box-shadow: 0 0 18px 3px rgba(0, 0, 0, 0.4);
 }
 .post-img {
-  max-width: 350px;
+  max-width: 450px;
   height: 300px;
   margin: auto;
   padding: 10px;
@@ -592,6 +592,9 @@ a {
   border-radius: 50%;
   z-index: 100;
   border: 3px solid var(--section-color);
+}
+img {
+  object-fit: cover;
 }
 @media (max-width: 767px) {
   body {
