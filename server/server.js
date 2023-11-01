@@ -19,6 +19,7 @@ dbConnection(() => {
 
 // Middleware init
 app.use(express.json({ limit: "4mb" }));
+app.use(express.static(path.join(__dirname, "..", "client", "build")));
 
 app.use(express.urlencoded({ extended: false, limit: "4mb" }));
 
@@ -33,12 +34,8 @@ app.use("/api/me", auth, userRouter);
 
 // Handel Errors
 
-if (process.env.NODE_ENV === "pro") {
-  app.use(express.static(path.join(__dirname, "..", "client", "build")));
-
-  app.use("*", (req, res) => {
-    res.sendFile(path.join(__dirname, "..", "client", "build", "index.html"));
-  });
-}
+app.use("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "..", "client", "build", "index.html"));
+});
 
 app.use(errorHandler);
